@@ -9,4 +9,3 @@ router.post('/signin', authController.signin);
 router.post('/dashboard', /*link to dashboard*/ );
 
 
-module.exports = router;
