@@ -64,3 +64,33 @@ exports.login = async (req,res,next) => {
         });
     }
 };
+
+exports.protect = async (req,res,next) => {
+   try {
+        //get token and check if exits
+        let token;
+        if (
+            req.headers.authorization && req.headers.authorization.startsWith('Bearer')
+        ) {
+         token = req.headers.authorization.split(' ')[1];
+        }
+        //console.log(token);
+        if (!token) {
+         return next(
+         new AppError('You are not logged in! Please log in to get access.', 401)
+        );
+        }
+        // verify the token
+
+        //check if user still exits
+
+        //  check if user changed password after the token was issued
+
+    next()
+    } catch (err){
+        res.status(404).json({
+            status: 'Fail',
+            message: err
+        });
+    }
+};
