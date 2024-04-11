@@ -13,9 +13,16 @@ const signToken = id => {
   });
 };
 
-exports.signup = catchAsync(async(req,res,next) => {
+exports.getSignUp = catchAsync(async(req,res,next)=>{
+  res.sendFile(path.join(__dirname,'..','public','html','registration.html'));
+});
+
+exports.postSignUp = catchAsync(async(req,res,next) => {
+    console.log(req.body);
+    const fullName = req.body.firstname+' '+req.body.lastname;
     const newUser = await User.create({
-        name: req.body.name,
+        
+        name: fullName,
         email: req.body.email,
         password: req.body.password,
         passwordConfirm: req.body.passwordConfirm,
@@ -25,13 +32,7 @@ exports.signup = catchAsync(async(req,res,next) => {
 
     const token = signToken(newUser._id);
 
-    res.status(201).json({
-        status: 'Success',
-        token,
-        data: {
-        user: newUser
-        }
-    }).redirect();
+    res.status(201).redirect('/api/v1/user/login');
 });
 
 exports.getLogin = catchAsync(async (req,res,next) => {
