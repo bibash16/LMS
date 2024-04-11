@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="login-container">
-        <form class="login-form" action="#">
+        <form class="login-form" action="" >
             <h2>Signin</h2>
             <div class="input-group">
                 <label for="email">email:</label>
@@ -20,19 +20,13 @@
             </div>
             <div>
                 <button type="submit">signin</button>
-                <button id="signup">signup</button>
+                
             </div>
         </form>
+        <form action="/api/v1/user/getSignup" method="GET">
+            <button type="submit">signup</button>
+        </form>
     </div>
-    <script>
-        function redirectToSignup() {
-            // Redirect to the signup page
-            window.location.href = 'public','html','css';
-
-        }
-        document.getElementById("signup").addEventListener("click", function() {
-        redirectToSignup(); // Call the redirectToSignup function
-    });
-    </script>
+    
 </body>
 </html>

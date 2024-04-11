@@ -19,7 +19,7 @@ const DB = process.env.DATABASE.replace(
 );
 
 mongoose
-  .connect(DB, {
+  .connect('mongodb+srv://lms:2tTTmapKIviTZHhQ@cluster0.kkmsjaw.mongodb.net/', {
    // useNewUrlParser: true,
     //createIndexes: true,
     //useUnifiedTopology: true,

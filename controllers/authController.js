@@ -11,8 +11,14 @@ const signToken = id => {
   });
 };
 
-exports.signup = catchAsync(async(req,res,next) => {
-    const newUser = await User.create({
+exports.getsignup = catchAsync(async(req,res,next) => {
+  res.sendFile(path.join(__dirname, '..','public', 'html', 'registration.html'));
+});
+
+exports.postsignup= catchAsync(async (req,res,next) =>{ 
+  console.log(req.body);  
+  const newUser  = await User.create({
+        
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
@@ -29,7 +35,7 @@ exports.signup = catchAsync(async(req,res,next) => {
         data: {
         user: newUser
         }
-    }).redirect();
+    });
 });
 
 exports.getLogin = catchAsync(async (req,res,next) => {
