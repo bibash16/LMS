@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const bodyParser = require('body-parser');
 
 const AppError = require('./util/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -10,6 +11,10 @@ const adminRouter = require('./routes/adminRoutes');
 const app = express();
 
 app.use(express.json());
+
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 //just a testing middleware
 app.use((req, res, next) => {

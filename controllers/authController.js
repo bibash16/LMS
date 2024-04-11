@@ -5,6 +5,8 @@ const catchAsync = require('./../util/catchAsync');
 const AppError = require('./../util/appError');
 const path = require('path');
 
+
+
 const signToken = id => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN
@@ -38,8 +40,9 @@ exports.getLogin = catchAsync(async (req,res,next) => {
 });
 
 exports.postLogin = catchAsync(async (req,res,next) =>{
-
-    const { email, password } = req.body;
+    console.log(req.body);
+    const email = req.body.email;
+    const password = req.body.password;
     //checking if the email and password exists
     if (!email || !password) {
       return  next(new AppError('Please provide email and password!', 400));
