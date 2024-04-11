@@ -32,33 +32,36 @@ exports.signup = catchAsync(async(req,res,next) => {
     }).redirect();
 });
 
-exports.login = catchAsync(async (req,res,next) => {
+exports.getLogin = catchAsync(async (req,res,next) => {
 
     res.sendFile(path.join(__dirname, '..','public', 'html', 'login.html'));
-
-    // const { email, password } = req.body;
-    // //checking if the email and password exists
-    // if (!email || !password) {
-    //   return  next(new AppError('Please provide email and password!', 400));
-    // }
-
-    // //checks if user exists and password is correct
-    // const user = await User.findOne({ email }).select('+password');
-
-    // if(!user || !(await user.correctPassword(password, user.password))) {
-    //     return  next(new AppError('Incorrect email and password!', 401)); 
-    // }
-
-
-
-    //  // send token after everything is done
-    // const token = signToken(user._id); 
-    
-    // res.status(200).json({
-    //     status: 'success',
-    //     token
-    // }).redirect('dashboard');
 });
+
+exports.postLogin = catchAsync(async (req,res,next) =>{
+
+    const { email, password } = req.body;
+    //checking if the email and password exists
+    if (!email || !password) {
+      return  next(new AppError('Please provide email and password!', 400));
+    }
+
+    //checks if user exists and password is correct
+    const user = await User.findOne({ email }).select('+password');
+
+    if(!user || !(await user.correctPassword(password, user.password))) {
+        return  next(new AppError('Incorrect email and password!', 401)); 
+    }
+
+
+
+     // send token after everything is done
+    const token = signToken(user._id); 
+    
+    res.status(200).json({
+        status: 'success',
+        token
+    }).redirect('/dashboard');
+})
 
 exports.protect = catchAsync(async (req, res, next) => {
   // Get token and check if it's there
