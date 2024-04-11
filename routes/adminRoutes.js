@@ -6,8 +6,8 @@ const authController = require('./../controllers/authController');
 const router = express.Router();
 
 
-router.route('/get-user-info').get(authController.protect, adminController.getAllUsers);
-
+router.route('/get-all-user-info')
+    .get(authController.protect,authController.restrictTo('admin'), adminController.getAllUsers);
 
 
 module.exports = router;
