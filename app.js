@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 
 const AppError = require('./util/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -19,6 +20,7 @@ app.use((req, res, next) => {
 
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/admin', adminRouter);
+
 
 //error handling for invalid routes
 app.all('*',(req,res,next) => {

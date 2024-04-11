@@ -14,7 +14,7 @@ exports.getUserInfo = catchAsync(async(req, res) => {
     data: {
       users
     }})
-    .sendFile(path.join(__dirname,'..','Public', 'html', 'dashboard.html'))
+    .sendFile(path.join(__dirname,'public', 'html', 'dashboard.html'))
 });
 exports.createUser = (req, res) => {
   res.status(500).json({
