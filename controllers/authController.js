@@ -20,11 +20,13 @@ exports.signup = async(req,res,next) => {
     }
 };
 
-exports.signin = (req, res, next)=>{
-    if(/*Check user credetials*/ true){
-        res.redirect('/api/v1/user/dashboard');
+exports.signin = async(req, res, next)=>{
+    const email = req.body.email;
+    const password = req.body.password;
+    if(!email || !password){
+        res.json({'Enter':'both'});
     }
     else{
-        
+        res.redirect('/api/v1/user/dashboard');   
     }
 }
