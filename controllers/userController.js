@@ -1,17 +1,20 @@
 const User = require('./../models/userModel');
 const catchAsync = require('./../util/catchAsync');
 const AppError = require('./../util/appError');
+const path = require('path');
 
 
 exports.getUserInfo = catchAsync(async(req, res) => {
     const users = await User.find();
 
-  res.status(200).json({
+  res.status(200)
+  .json({
     status: 'success',
     results: users.length,
     data: {
       users
     }})
+    .sendFile(path.join(__dirname,'..','Public', 'html', 'dashboard.html'))
 });
 exports.createUser = (req, res) => {
   res.status(500).json({
