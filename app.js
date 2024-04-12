@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const bodyParser = require('body-parser');
 
 const AppError = require('./util/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -8,8 +9,20 @@ const userRouter = require('./routes/userRoutes');
 const adminRouter = require('./routes/adminRoutes');
 
 const app = express();
-
 app.use(express.json());
+
+app.use(express.urlencoded({ extended: true }));
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public','html','login.html'));
+});
+app.post('/register', (req, res) => {
+  // Redirect the user to the registration page
+  res.redirect('/registration');
+});
+
 
 //just a testing middleware
 app.use((req, res, next) => {

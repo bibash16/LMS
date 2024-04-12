@@ -5,21 +5,24 @@ const catchAsync = require('./../util/catchAsync');
 const AppError = require('./../util/appError');
 const path = require('path');
 
+
+
 const signToken = id => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN
   });
 };
 
-exports.getsignup = catchAsync(async(req,res,next) => {
-  res.sendFile(path.join(__dirname, '..','public', 'html', 'registration.html'));
+exports.getSignUp = catchAsync(async(req,res,next)=>{
+  res.sendFile(path.join(__dirname,'..','public','html','registration.html'));
 });
 
-exports.postsignup= catchAsync(async (req,res,next) =>{ 
-  console.log(req.body);  
-  const newUser  = await User.create({
+exports.postSignUp = catchAsync(async(req,res,next) => {
+    console.log(req.body);
+    const fullName = req.body.firstname+' '+req.body.lastname;
+    const newUser = await User.create({
         
-        name: req.body.name,
+        name: fullName,
         email: req.body.email,
         password: req.body.password,
         passwordConfirm: req.body.passwordConfirm,
@@ -29,13 +32,7 @@ exports.postsignup= catchAsync(async (req,res,next) =>{
 
     const token = signToken(newUser._id);
 
-    res.status(201).json({
-        status: 'Success',
-        token,
-        data: {
-        user: newUser
-        }
-    });
+    res.status(201).redirect('/api/v1/user/login');
 });
 
 exports.getLogin = catchAsync(async (req,res,next) => {
@@ -44,8 +41,9 @@ exports.getLogin = catchAsync(async (req,res,next) => {
 });
 
 exports.postLogin = catchAsync(async (req,res,next) =>{
-
-    const { email, password } = req.body;
+    console.log(req.body);
+    const email = req.body.email;
+    const password = req.body.password;
     //checking if the email and password exists
     if (!email || !password) {
       return  next(new AppError('Please provide email and password!', 400));
@@ -121,4 +119,3 @@ exports.restrictTo = (...roles) => {
     next();
     };
 };
-

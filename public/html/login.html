@@ -4,29 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
     <div class="login-container">
-        <form class="login-form" action="" >
-            <h2>Signin</h2>
+        <form class="login-form" action="/api/v1/user/postLogin" method="POST">
+            <h2>Sign In</h2>
             <div class="input-group">
-                <label for="email">email:</label>
+                <label for="email">Email:</label>
                 <input type="email" id="email" name="email" placeholder="Enter your email" required>
             </div>
             <div class="input-group">
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" placeholder="Enter your password" required>
             </div>
-            <div>
-                <button type="submit">signin</button>
-                
-            </div>
-        </form>
-        <form action="/api/v1/user/getSignup" method="GET">
-            <button type="submit">signup</button>
+            <button type="submit">Sign In</button>
+            <button type="button" onclick="window.location.href='/api/v1/user/registration'">Register</button>
         </form>
     </div>
-    
 </body>
 </html>

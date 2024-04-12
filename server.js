@@ -19,14 +19,14 @@ const DB = process.env.DATABASE.replace(
 );
 
 mongoose
-  .connect('mongodb+srv://lms:2tTTmapKIviTZHhQ@cluster0.kkmsjaw.mongodb.net/', {
+  .connect(DB, {
    // useNewUrlParser: true,
     //createIndexes: true,
     //useUnifiedTopology: true,
   })
   .then(() => console.log('DB connection successful!'));
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 const server = app.listen(port, () => {
   console.log(`App running on port ${port}...`);
 });
