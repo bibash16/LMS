@@ -8,6 +8,9 @@ router.post('/postSignUp', authController.postSignUp);
 router.get('/login', authController.getLogin);
 router.post('/postLogin', authController.postLogin)
 router.get('/dashboard', userController.dashboard);
+router.post('/postLeaveApplication', userController.postLeaveApplication);
+router.get('/leave-request', userController.getLeaveApplication);
+
 
 router.route('/get-user-info')
     .get(authController.protect, userController.getUserInfo);

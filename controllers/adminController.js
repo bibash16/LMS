@@ -1,4 +1,5 @@
 const User = require('./../models/userModel');
+const Leave = require('./../models/leaveModel');
 const catchAsync = require('./../util/catchAsync');
 const AppError = require('./../util/appError');
 const path = require('path');
