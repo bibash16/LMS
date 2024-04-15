@@ -55,27 +55,32 @@ exports.postLogin = catchAsync(async (req,res,next) =>{
     if(!user || !(await user.correctPassword(password, user.password))) {
         return  next(new AppError('Incorrect email and password!', 401)); 
     }
-
-
-
      // send token after everything is done
-    
+    const token = signToken(user._id);
+    //set cookie with the login token
+    res.cookie('jwt', token, {
+      expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
+      httpOnly: true,
+      secure: req.secure || req.headers['x-forwarded-proto'] === 'https'
+    });
 
     let redirectUrl = user.role === 'admin' ? '/api/v1/admin/dashboard' : '/api/v1/user/dashboard';
-
-    const token = signToken(user._id);
     res.status(200).redirect(redirectUrl);
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
   // Get token and check if it's there
   let token;
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
-  ) {
-    token = req.headers.authorization.split(' ')[1];
+
+  if (req.cookies.jwt) {
+    token = req.cookies.jwt;
   }
+  // if (
+  //   req.headers.authorization &&
+  //   req.headers.authorization.startsWith('Bearer')
+  // ) {
+  //   token = req.headers.authorization.split(' ')[1];
+  // }
 
   if (!token) {
     return next(
