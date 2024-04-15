@@ -68,6 +68,12 @@ exports.postLogin = catchAsync(async (req,res,next) =>{
     res.status(200).redirect(redirectUrl);
 });
 
+exports.postLogout = catchAsync(async (req,res,next) => {
+  res.cookie('jwt', '', { expires: new Date(0), httpOnly: true });
+
+  res.status(200).redirect('/api/user/login');
+});
+
 exports.protect = catchAsync(async (req, res, next) => {
   // Get token and check if it's there
   let token;
