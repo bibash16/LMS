@@ -63,19 +63,6 @@ body {
     color: #FFF;
 }
 
-.sidebar-logo {
-    margin: auto 0;
-    color: #FFF;
-    margin: auto;
-}
-
-.sidebar-logo p {
-    color: #FFF;
-    font-size: 1.15rem;
-    font-weight: 600;
-}
-
-#sidebar:not(.expand) .sidebar-logo,
 #sidebar:not(.expand) a.sidebar-link span {
     display: none;
 } 
@@ -125,7 +112,7 @@ a.sidebar-link:hover {
     opacity: 1;
 }
 
-#sidebar.expand .sidebar-link[data-bs-toggle="collapse"]::after {
+#sidebar.expand .sidebar-link [data-bs-toggle="collapse"]::after {
     border: solid;
     border-width: 0 .075rem .075rem 0;
     content: "";
@@ -138,7 +125,7 @@ a.sidebar-link:hover {
     transition: all .2s ease-out;
 }
 
-#sidebar.expand .sidebar-link[data-bs-toggle="collapse"].collapsed::after {
+#sidebar.expand .sidebar-link [data-bs-toggle="collapse"].collapsed::after {
     transform: rotate(45deg);
     transition: all .2s ease-out;
 }
