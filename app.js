@@ -22,6 +22,7 @@ app.use(bodyParser.urlencoded({
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 //just a testing middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
