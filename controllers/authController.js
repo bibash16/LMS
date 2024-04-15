@@ -27,7 +27,7 @@ exports.postSignUp = catchAsync(async(req,res,next) => {
         password: req.body.password,
         passwordConfirm: req.body.passwordConfirm,
         position: req.body.position,
-        contactNumber: req.body.contactNumber,
+        contactNumber: req.body.contact,
         passwordCreatedAt: req.body.passwordCreatedAt,
         role: req.body.role
     });

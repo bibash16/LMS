@@ -16,19 +16,6 @@ app.use(bodyParser.urlencoded({
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public','html','login.html'));
-});
-app.post('/register', (req, res) => {
-  // Redirect the user to the registration page
-  res.redirect('/registration');
-});
-
-
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
-
 //just a testing middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
