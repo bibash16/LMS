@@ -18,7 +18,6 @@ exports.getSignUp = catchAsync(async(req,res,next)=>{
 });
 
 exports.postSignUp = catchAsync(async(req,res,next) => {
-    console.log(req.body);
     const fullName = req.body.firstname+' '+req.body.lastname;
     const newUser = await User.create({
         
@@ -28,8 +27,7 @@ exports.postSignUp = catchAsync(async(req,res,next) => {
         passwordConfirm: req.body.passwordConfirm,
         position: req.body.position,
         contactNumber: req.body.contact,
-        passwordCreatedAt: req.body.passwordCreatedAt,
-        role: req.body.role
+        passwordCreatedAt: req.body.passwordCreatedAt
     });
 
     const token = signToken(newUser._id);
