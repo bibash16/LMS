@@ -1,7 +1,11 @@
 const User = require('./../models/userModel');
 const catchAsync = require('./../util/catchAsync');
 const AppError = require('./../util/appError');
+const path = require('path');
 
+exports.dashboard = catchAsync(async(req,res,next)=>{
+  res.sendFile(path.join(__dirname,'..','public','html','adminDashboard.html'));
+});
 
 exports.getAllUsers = async(req, res) => {
   try{ 

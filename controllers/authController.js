@@ -59,13 +59,13 @@ exports.postLogin = catchAsync(async (req,res,next) =>{
 
 
      // send token after everything is done
-    const token = signToken(user._id); 
     
-    res.status(200).json({
-        status: 'success',
-        token
-    }).redirect('/dashboard');
-})
+
+    let redirectUrl = user.role === 'admin' ? '/api/v1/admin/dashboard' : '/api/v1/user/dashboard';
+
+    const token = signToken(user._id);
+    res.status(200).redirect(redirectUrl);
+});
 
 exports.protect = catchAsync(async (req, res, next) => {
   // Get token and check if it's there

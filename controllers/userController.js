@@ -3,6 +3,9 @@ const catchAsync = require('./../util/catchAsync');
 const AppError = require('./../util/appError');
 const path = require('path');
 
+exports.dashboard = catchAsync(async(req,res,next)=>{
+  res.sendFile(path.join(__dirname,'..','public','html','dashboard.html'));
+});
 
 exports.getUserInfo = catchAsync(async(req, res) => {
     const users = await User.find();

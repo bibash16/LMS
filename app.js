@@ -23,6 +23,11 @@ app.use((req, res, next) => {
   next();
 });
 
+//starting page which has the login signup buttons
+app.get('/', (req, res,next) => {
+    res.sendFile(path.join(__dirname,'public','html','index.html'));
+});
+
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/admin', adminRouter);
 
