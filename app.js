@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 const AppError = require('./util/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
