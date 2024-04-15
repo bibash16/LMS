@@ -5,11 +5,15 @@ const router = express.Router();
 
 router.get('/registration', authController.getSignUp);
 router.post('/postSignUp', authController.postSignUp);
+router.get('/registration', authController.getSignUp);
+router.post('/postSignUp', authController.postSignUp);
 router.get('/login', authController.getLogin);
 router.post('/postLogin', authController.postLogin)
 router.get('/dashboard', userController.dashboard);
 
 router.route('/get-user-info')
     .get(authController.protect, userController.getUserInfo);
+
+router.get('/users', userController.getAllUsers);
 
 module.exports = router;

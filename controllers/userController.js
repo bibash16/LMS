@@ -10,16 +10,18 @@ exports.dashboard = catchAsync(async(req,res,next)=>{
 exports.getUserInfo = catchAsync(async(req, res) => {
     const users = await User.find();
 
-  res.status(200)
-  .json({
+  res.status(200).json({
     status: 'success',
     results: users.length,
     data: {
       users
-    }})
-    .sendFile(path.join(__dirname,'public', 'html', 'dashboard.html'))
-    
+    }
+  });
+  
+  // Send the file as a separate response
+  res.sendFile(path.join(__dirname, '..', 'public', 'html', 'dashboard.html'));
 });
+
 exports.createUser = (req, res) => {
   res.status(500).json({
     status: 'error',

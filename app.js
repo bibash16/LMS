@@ -9,8 +9,21 @@ const userRouter = require('./routes/userRoutes');
 const adminRouter = require('./routes/adminRoutes');
 
 const app = express();
-
 app.use(express.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public','html','login.html'));
+});
+app.post('/register', (req, res) => {
+  // Redirect the user to the registration page
+  res.redirect('/registration');
+});
+
 
 app.use(bodyParser.urlencoded({
   extended: true

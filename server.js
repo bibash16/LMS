@@ -5,6 +5,7 @@ const AppError = require('./util/appError');
 
 process.on('uncaughtException', err => {
   console.log('Uncaught exception, Shutting down.');
+  console.error(err); 
   console.log(err.name, err.message);
   process.exit(1);
 });
@@ -26,7 +27,7 @@ mongoose
   })
   .then(() => console.log('DB connection successful!'));
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 const server = app.listen(port, () => {
   console.log(`App running on port ${port}...`);
 });
