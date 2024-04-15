@@ -10,7 +10,7 @@ router.post('/postLogin', authController.postLogin)
 router.get('/dashboard', userController.dashboard);
 router.post('/postLeaveApplication', userController.postLeaveApplication);
 router.get('/leave-request', userController.getLeaveApplication);
-
+router.post('/logout', authController.postLogout);
 
 router.route('/get-user-info')
     .get(authController.protect, userController.getUserInfo);
