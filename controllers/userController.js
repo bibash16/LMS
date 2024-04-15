@@ -5,7 +5,10 @@ const AppError = require('./../util/appError');
 const path = require('path');
 
 exports.dashboard = catchAsync(async(req,res,next)=>{
-  res.sendFile(path.join(__dirname,'..','public','html','dashboard.html'));
+  const users = await User.find();
+  const user = users[3];
+  console.log(users);
+  res.render(path.join(__dirname,'..','public','html','dashboard.ejs'), {user : user})
 });
 
 exports.getUserInfo = catchAsync(async(req, res) => {
@@ -20,7 +23,7 @@ exports.getUserInfo = catchAsync(async(req, res) => {
   });
   
   // Send the file as a separate response
-  res.sendFile(path.join(__dirname, '..', 'public', 'html', 'dashboard.html'));
+  res.render(path.join(__dirname,'..','public','html','dashboard.ejs'), {user : users})
 });
 
 exports.createUser = (req, res) => {
