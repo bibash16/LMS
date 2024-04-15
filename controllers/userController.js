@@ -3,20 +3,44 @@ const catchAsync = require('./../util/catchAsync');
 const AppError = require('./../util/appError');
 const path = require('path');
 
+exports.getDashboard = (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'public', 'html', 'dashboard.html'));
+};
 
-exports.getUserInfo = catchAsync(async(req, res) => {
+exports.getAllUsers = async (req, res) =>{
+  try {
     const users = await User.find();
+    res.status(200).json({
+      status: 'success',
+      results: users.length,
+      data: {
+        users
+      }
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: 'error',
+      message: err.message
+    });
+  }
+}
 
-  res.status(200)
-  .json({
+
+exports.getUserInfo = catchAsync(async (req, res) => {
+  const users = await User.find();
+
+  res.status(200).json({
     status: 'success',
     results: users.length,
     data: {
       users
-    }})
-    .sendFile(path.join(__dirname,'public', 'html', 'dashboard.html'))
-    
+    }
+  });
+  
+  // Send the file as a separate response
+  res.sendFile(path.join(__dirname, '..', 'public', 'html', 'dashboard.html'));
 });
+
 exports.createUser = (req, res) => {
   res.status(500).json({
     status: 'error',

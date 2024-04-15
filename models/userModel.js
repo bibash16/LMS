@@ -3,76 +3,90 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
-    name: {
+    firstname: {
         type: String,
-        required: [true, 'Please provide your name.']
+        required: [true, 'Please provide your first name.']
     },
+
+    lastname: {
+        type: String,
+        required: [true, 'Please provide your last name.']
+    },
+
     email: {
         type: String,
         required: [true, 'Please provide your email.'],
         unique: true,
         lowercase: true,
-        validate: [validator.isEmail, 'Please provide a valid email adress.']
+        validate: [validator.isEmail, 'Please provide a valid email address.']
     },
-    //photo: String,
+
+    contactNumber: {
+        type: String,
+        required: [true, 'Please provide your contact number.'],
+        validate: {
+            validator: (value) => {
+                return validator.isMobilePhone(value.toString(), 'any', { strictMode: false });
+            },
+            message: 'Please provide a valid contact number.'
+        }
+    },
+
+    position: {
+        type: String,
+        required: [true, 'Please provide your position']
+    },
+
     role: {
         type: String,
-        enum: ['user','admin'],
-        default:'user'
+        enum: ['user', 'admin'],
+        default: 'user'
     },
-    password: { 
+
+    password: {
         type: String,
-        required: [true,'Please provide a password.'],
-        minLength: 5,
-        select: false
+        required: [true, 'Please provide a password.'],
+        minlength: [5, 'Password must have at least 5 characters']
     },
+
     passwordConfirm: {
         type: String,
         required: [true, 'Please confirm your password.'],
         validate: {
-            //only works on CREATE AND SAVE
-            validator: function(el) { 
-                return el === this.password
+            validator: function (value) {
+                return value === this.password;
             },
-            message: ' The passwords are not the same.'
+            message: 'The passwords do not match.'
         }
     },
-    passwordChangedAt: Date 
+
+    passwordChangedAt: Date
 });
 
-userSchema.pre('save', async function(next) {
-     //only runs this function if password was modified
+userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
-    
-    // hashing the password
-    this.password = await bcrypt.hash(this.password, 12);
 
-    // delete passwordConfirm file
+    this.password = await bcrypt.hash(this.password, 12);
     this.passwordConfirm = undefined;
     next();
-   
 });
 
-userSchema.methods.correctPassword = async function(candidatePassword, userPassword){
+userSchema.methods.correctPassword = async function (candidatePassword, userPassword) {
     return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-//checking if the password was changed after the JWT was sent
+userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+    if (this.passwordChangedAt) {
+        const changedTimestamp = parseInt(
+            this.passwordChangedAt.getTime() / 1000,
+            10
+        );
 
-userSchema.methods.changedPasswordAfter = function(JWTTimestamp) {
-  if (this.passwordChangedAt) {
-    const changedTimestamp = parseInt(
-      this.passwordChangedAt.getTime() / 1000,
-      10
-    );
-
-    return JWTTimestamp < changedTimestamp;
-  }
-
-  // False means not changed
-  return false;
+        return JWTTimestamp < changedTimestamp;
+    }
+    return false;
 };
 
 const User = mongoose.model('User', userSchema);
 
-module.exports = User;
+module.exports = User
