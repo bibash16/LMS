@@ -7,9 +7,13 @@ exports.dashboard = catchAsync(async(req,res,next)=>{
   res.sendFile(path.join(__dirname,'..','public','html','adminDashboard.html'));
 });
 
-exports.getAllUsers = async(req, res) => {
-  try{ 
+exports.getAllUsers = catchAsync(async (req, res, next) => {
+  try {
     const users = await User.find();
+
+    if (!users) {
+      return next(new AppError('No users found', 404));
+    }
     
 
   // SEND RESPONSE
@@ -19,12 +23,11 @@ exports.getAllUsers = async(req, res) => {
     data: {
       users
     }})
-    }catch{
-    res.status(500).json({
-    status: 'error',
-    message: 'Something went wrong!'
-    })
-}};
+    }catch (err) {
+      console.error('Error fetching users:', err);
+      next(new AppError('Something went wrong!', 500));
+    }
+  });
 
 exports.getUser = (req, res) => {
   res.status(500).json({
