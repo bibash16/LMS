@@ -38,6 +38,7 @@ exports.getLogin = catchAsync(async (req, res, next) => {
 });
 
 exports.postLogin = catchAsync(async (req, res, next) => {
+  console.log(req.body);
   const email = req.body.email;
   const password = req.body.password;
 
@@ -53,7 +54,7 @@ exports.postLogin = catchAsync(async (req, res, next) => {
 
   const token = signToken(user._id);
 
-  res.redirect('/dashboard');
+  res.redirect('/api/v1/user/dashboard');
 });
 
 exports.getDashboard = (req, res) => {
