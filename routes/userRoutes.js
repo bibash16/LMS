@@ -14,6 +14,4 @@ router.get('/dashboard', userController.dashboard);
 router.route('/get-user-info')
     .get(authController.protect, userController.getUserInfo);
 
-router.get('/users', userController.getAllUsers);
-
 module.exports = router;
