@@ -5,14 +5,14 @@ const AppError = require('./../util/appError');
 const path = require('path');
 
 exports.dashboard = catchAsync(async(req,res,next)=>{
-  res.render(path.join(__dirname,'..','public','html','adminDashboard.ejs'),{user: req.user});
+  res.render(path.join(__dirname,'..','public','html','adminHTML','adminDashboard.ejs'),{user: req.user});
 });
 
 exports.showProfile = catchAsync(async(req,res,next)=>{
   const users = await User.find({});
   console.log(users);
   //console.log(req.user);
-  res.render(path.join(__dirname,'..','public','html','adminProfile.ejs'), {user : req.user})
+  res.render(path.join(__dirname,'..','public','html','adminHTML','adminProfile.ejs'), {user : req.user})
 });
 
 
