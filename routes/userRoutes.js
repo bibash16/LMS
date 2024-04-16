@@ -13,6 +13,7 @@ router.use(authController.protect);
 router.get('/dashboard', userController.dashboard);
 router.post('/postLeaveApplication', userController.postLeaveApplication);
 router.get('/leave-request', userController.getLeaveApplication);
+router.get('/profile', userController.showProfile)
 router.post('/logout', authController.postLogout);
 
 
