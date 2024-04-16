@@ -6,27 +6,12 @@ const path = require('path');
 
 exports.dashboard = catchAsync(async(req,res,next)=>{
   //console.log(req.user);
-  res.render(path.join(__dirname,'..','public','html','dashboard.ejs'), {user : req.user})
+  res.render(path.join(__dirname,'..','public','html','userHTML','dashboard.ejs'), {user : req.user})
 });
 
 exports.showProfile = catchAsync(async(req,res,next)=>{
   console.log(req.user);
-  res.render(path.join(__dirname,'..','public','html','userProfile.ejs'), {user : req.user})
-});
-
-exports.getUserInfo = catchAsync(async(req, res) => {
-    const users = await User.find();
-
-  res.status(200).json({
-    status: 'success',
-    results: users.length,
-    data: {
-      users
-    }
-  });
-  
-  // Send the file as a separate response
-  res.render(path.join(__dirname,'..','public','html','dashboard.ejs'), {user : users})
+  res.render(path.join(__dirname,'..','public','html','userHTML','userProfile.ejs'), {user : req.user})
 });
 
 
@@ -43,7 +28,7 @@ exports.leaveRemaining = (req, res) => {
   });
 };
 exports.getLeaveApplication = (req, res, next) => {
-  res.render(path.join(__dirname,'..','public','html','leaveForm.ejs'));
+  res.render(path.join(__dirname,'..','public','html','userHTML','leaveForm.ejs'));
 };
 exports.postLeaveApplication = async (req,res,next) => {
   const newLeave = await Leave.create({

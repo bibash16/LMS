@@ -5,24 +5,17 @@ const AppError = require('./../util/appError');
 const path = require('path');
 
 exports.dashboard = catchAsync(async(req,res,next)=>{
-  res.sendFile(path.join(__dirname,'..','public','html','adminDashboard.html'));
+  res.render(path.join(__dirname,'..','public','html','adminHTML','adminDashboard.ejs'),{user: req.user});
 });
 
-exports.getAllUsers = catchAsync(async (req, res, next) => {
-  const users = await User.find();
-
-  if (!users || users.length === 0) {
-    return next(new AppError('No users found', 404));
-  }
-
-  res.status(200).json({
-    status: 'success',
-    results: users.length,
-    data: {
-      users
-    }
-  });
+exports.showProfile = catchAsync(async(req,res,next)=>{
+  const users = await User.find({});
+  console.log(users);
+  //console.log(req.user);
+  res.render(path.join(__dirname,'..','public','html','adminHTML','adminProfile.ejs'), {user : req.user})
 });
+
+
 exports.getUser = (req, res) => {
   res.status(500).json({
     status: 'error',
