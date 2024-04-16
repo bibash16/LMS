@@ -59,7 +59,7 @@ exports.postLogin = catchAsync(async (req,res,next) =>{
     const token = signToken(user._id);
     //set cookie with the login token
     res.cookie('jwt', token, {
-      expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
+      expires: new Date(Date.now() + parseInt(process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000)),
       httpOnly: true,
       secure: req.secure || req.headers['x-forwarded-proto'] === 'https'
     });
@@ -89,14 +89,19 @@ exports.protect = catchAsync(async (req, res, next) => {
   // }
 
   if (!token) {
-    return next(
-      new AppError('You are not logged in! Please log in to get access.', 401)
-    );
+    // return next(
+    //   new AppError('You are not logged in! Please log in to get access.', 401)
+    // );
+    return  res.redirect('/api/user/login');
   }
 
   // Verify token
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
+  //check if token has expired
+  if (decoded.exp < Date.now() / 1000) {
+    return res.redirect('/api/user/login');
+  }  
   // Check if user still exists
   const currentUser = await User.findById(decoded.id);
   if (!currentUser) {
