@@ -21,7 +21,7 @@
             
             <ul class="sidebar-nav">
                 <li class="sidebar-item">
-                    <a href="profile" class="sidebar-link">
+                    <a href="" class="sidebar-link">
                         <i class="lni lni-user"></i>
                         <span>Profile</span>
                     </a>
@@ -66,13 +66,28 @@
             </div>
         </aside>
         <div class="main p-3">
-            <div class="text-center">
-                <h1>
-                    Hello <%= user.name %>!
-                </h1>
-                <h1>
-                    Welcome to Leave Management System
-                </h1>
+            <div class="rectangle-container">
+                <div class="rectangle">
+                    
+                    <h1>Your profile details are:</h1>
+                    <br>
+                    <div class="input-group">
+                        <label for = "name">Full Name: <%= user.name %></label>
+                    </div>
+                    <div class="input-group">
+                        <label for = "email">Email: <%= user.email %></label>
+                    </div>
+                    <div class="input-group">
+                        <label for = "contact">Contact: <%= user.contactNumber %></label>
+                    </div>
+                    <div class="input-group">
+                        <label for = "position">Position: <%= user.position %></label>
+                    </div>
+                    <div class="input-group">
+                        <label for = "role">Role: <%= user.role %></label>
+                    </div>
+                      
+                </div>       
             </div>
         </div>
     </div>
