@@ -15,7 +15,7 @@ const leaveSchema = new mongoose.Schema(
     },
 
     startDate: {
-       type: Date,
+       type: [Date],
         required: true,
         validate: {
             validator: function(value) {

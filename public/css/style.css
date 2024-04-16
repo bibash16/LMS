@@ -145,7 +145,7 @@ body {
 }
 
 .rectangle {
-    width: 500px;
+    width: 50%;
     padding: 20px;
     background-color: #fff;
     border-radius: 10px;
@@ -158,14 +158,13 @@ body {
 
 .input-group label {
     display: block;
-    margin-bottom: 5px;
+    margin: 2%;
 }
 
 .input-group input {
     width: 90%;
-    padding: 8px;
+    padding: 2%;
     border: 1px solid #ccc;
-    border-radius: 5px;
 }
 
 button {

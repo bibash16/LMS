@@ -43,7 +43,7 @@ exports.leaveRemaining = (req, res) => {
   });
 };
 exports.getLeaveApplication = (req, res, next) => {
-  res.sendFile(path.join(__dirname,'..','public','html','leaveForm.html'));
+  res.render(path.join(__dirname,'..','public','html','leaveForm.ejs'));
 };
 exports.postLeaveApplication = async (req,res,next) => {
   const newLeave = await Leave.create({
