@@ -10,6 +10,9 @@ const userRouter = require('./routes/userRoutes');
 const adminRouter = require('./routes/adminRoutes');
 
 const app = express();
+
+app.set('view engine', 'ejs');
+
 app.use(express.json());
 
 app.use(bodyParser.urlencoded({
@@ -18,7 +21,6 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
-
 
 //just a testing middleware
 app.use((req, res, next) => {

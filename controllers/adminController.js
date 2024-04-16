@@ -9,27 +9,20 @@ exports.dashboard = catchAsync(async(req,res,next)=>{
 });
 
 exports.getAllUsers = catchAsync(async (req, res, next) => {
-  try {
-    const users = await User.find();
+  const users = await User.find();
 
-    if (!users) {
-      return next(new AppError('No users found', 404));
-    }
-    
+  if (!users || users.length === 0) {
+    return next(new AppError('No users found', 404));
+  }
 
-  // SEND RESPONSE
   res.status(200).json({
     status: 'success',
     results: users.length,
     data: {
       users
-    }})
-    }catch (err) {
-      console.error('Error fetching users:', err);
-      next(new AppError('Something went wrong!', 500));
     }
   });
-
+});
 exports.getUser = (req, res) => {
   res.status(500).json({
     status: 'error',

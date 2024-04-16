@@ -40,32 +40,35 @@ exports.getLogin = catchAsync(async (req,res,next) => {
     res.sendFile(path.join(__dirname, '..','public', 'html', 'login.html'));
 });
 
-exports.postLogin = catchAsync(async (req,res,next) =>{
-    console.log(req.body);
-    const email = req.body.email;
-    const password = req.body.password;
-    //checking if the email and password exists
-    if (!email || !password) {
-      return  next(new AppError('Please provide email and password!', 400));
-    }
+exports.postLogin = catchAsync(async (req, res, next) => {
+  const email = req.body.email;
+  const password = req.body.password;
 
-    //checks if user exists and password is correct
-    const user = await User.findOne({ email }).select('+password');
+  if (!email || !password) {
+      return next(new AppError('Please provide email and password!', 400));
+  }
 
-    if(!user || !(await user.correctPassword(password, user.password))) {
-        return  next(new AppError('Incorrect email and password!', 401)); 
-    }
-     // send token after everything is done
-    const token = signToken(user._id);
-    //set cookie with the login token
-    res.cookie('jwt', token, {
-      expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
+  const user = await User.findOne({ email }).select('+password');
+
+  if (!user || !(await user.correctPassword(password, user.password))) {
+      return next(new AppError('Incorrect email and password!', 401));
+  }
+
+  const token = signToken(user._id);
+
+  // Calculate the expiration date for the JWT cookie
+  const expiresIn = process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000; // Convert days to milliseconds
+  const expirationDate = new Date(Date.now() + expiresIn);
+
+  // Set the JWT cookie
+  res.cookie('jwt', token, {
+      expires: expirationDate,
       httpOnly: true,
       secure: req.secure || req.headers['x-forwarded-proto'] === 'https'
-    });
+  });
 
-    let redirectUrl = user.role === 'admin' ? '/api/v1/admin/dashboard' : '/api/v1/user/dashboard';
-    res.status(200).redirect(redirectUrl);
+  const redirectUrl = user.role === 'admin' ? '/api/v1/admin/dashboard' : '/api/v1/user/dashboard';
+  res.status(200).redirect(redirectUrl);
 });
 
 exports.postLogout = catchAsync(async (req,res,next) => {
