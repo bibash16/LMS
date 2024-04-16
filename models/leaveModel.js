@@ -15,12 +15,15 @@ const leaveSchema = new mongoose.Schema(
     },
 
     startDate: {
-       type: [Date],
+       type: Date,
         required: true,
         validate: {
             validator: function(value) {
-                return value.length > 0; // Ensure at least one start date is provided
-            },
+             const today = new Date();
+            today.setHours(0, 0, 0, 0); // Set hours to midnight for comparison
+            return value >= today; // Ensure start date is today or in the future
+        
+        },
             message: 'Please provide a valid start date.'
         } },
     endDate: {
@@ -28,11 +31,12 @@ const leaveSchema = new mongoose.Schema(
         required: true,
         validate: {
             validator: function(value) {
-                return this.startDate.every(startDate => startDate <= value); // Ensure end date is after all start dates
+                return value >= this.startDate; 
             },
             message: 'Please enter a valid ending date.'
         }
     },
+
     leaveType:{
         type: String,
         required: [true, 'Please enter the type of leave.'],

@@ -48,8 +48,28 @@ const userSchema = new mongoose.Schema({
             message: 'The passwords do not match.'
         }
     },
-
-    passwordChangedAt: Date
+    passwordChangedAt: Date,
+    
+    remainingLeave: {
+        casual: {
+            type: Number,
+            default: 10
+        },
+        sick: {
+            type: Number,
+            default: 15
+        }
+    },
+    leaveTaken: {
+        casual: {
+            type: Number,
+            default: 0
+        },
+        sick: {
+            type: Number,
+            default: 0
+        }
+    }
 });
 
 userSchema.pre('save', async function (next) {
