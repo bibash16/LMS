@@ -16,8 +16,4 @@ router.get('/leaveRequest', userController.getLeaveApplication);
 router.get('/profile', userController.showProfile)
 router.post('/logout', authController.postLogout);
 
-
-router.route('/get-user-info')
-    .get(userController.getUserInfo);
-
 module.exports = router;

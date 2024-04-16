@@ -9,28 +9,12 @@ exports.dashboard = catchAsync(async(req,res,next)=>{
 });
 
 exports.showProfile = catchAsync(async(req,res,next)=>{
-  console.log(req.user);
+  const users = await User.find({});
+  console.log(users);
+  //console.log(req.user);
   res.render(path.join(__dirname,'..','public','html','adminProfile.ejs'), {user : req.user})
 });
 
-exports.getAllUsers = async(req, res) => {
-  try{ 
-    const users = await User.find();
-    
-
-  // SEND RESPONSE
-  res.status(200).json({
-    status: 'success',
-    results: users.length,
-    data: {
-      users
-    }})
-    }catch{
-    res.status(500).json({
-    status: 'error',
-    message: 'Something went wrong!'
-    })
-}};
 
 exports.getUser = (req, res) => {
   res.status(500).json({
