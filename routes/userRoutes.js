@@ -10,7 +10,7 @@ router.post('/postLogin', authController.postLogin)
 router.get('/dashboard', userController.dashboard);
 router.post('/postLeaveApplication', userController.postLeaveApplication);
 router.get('/leave-request', userController.getLeaveApplication);
-router.get('/getalluser', userController.getAllUsers);
+router.post('/logout', authController.postLogout);router.get('/getalluser', userController.getAllUsers);
 
 
 router.route('/get-user-info')
