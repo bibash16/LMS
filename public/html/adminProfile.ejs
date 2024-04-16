@@ -29,19 +29,19 @@
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
                         <i class="lni lni-checkmark-circle"></i>
-                        <span>Leave status</span>
+                        <span>User Information</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
                     <a href="leaveRequest" class="sidebar-link">
                         <i class="lni lni-add-files"></i>
-                        <span>Apply for leave</span>
+                        <span>Leave Requests</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
                         <i class="lni lni-question-circle"></i>
-                        <span>Remaining leave</span>
+                        <span>Leave History</span>
                     </a>
                 </li>
                 
@@ -68,45 +68,29 @@
         <div class="main p-3">
             <div class="rectangle-container">
                 <div class="rectangle">
-                    <form action="/api/v1/user/postLeaveApplication" method="post">
-                        <h1> Leave Request Form</h1>
-                        <div class="input-group">
-                            <label for = "name">Name:</label>
-                            <input type="text" id="name" name="name" placeholder="Enter your full Name:" required>
-                        </div>
-                        <div class="input-group">
-                            <label for = "email">Email:</label>
-                            <input type="email" id="email" name="email" placeholder="Enter your email:" step="1" required>
-        
-                        </div>
-                        <div class="input-group">
-                            <label for="startdate">Start Date:</label>
-                            <input type="date" id="startdate" name="startdate" placeholder="Enter the starting date."required>
-                        </div>
-                        <div class="input-group">
-                            <label for="enddate">End Date:</label>
-                            <input type="date" id="enddate" name="enddate" placeholder="Enter the ending date."required>
-                        </div>
-                        <div class="input-group">
-                            <label for="leavetype">Type of Leave:</label>
-                            <select name="leavetype" id="leavetype" required>
-                                <option value="" disabled selected>Pick your leave</option>
-                                <option value="Casual">Casual</option>
-                                <option value="Sick">Sick</option>
-                            </select>
-                        </div>
-                        <div class="input-group">
-                            <label for="description">Description:</label>
-                            <input type="description" id="description" name="description" placeholder="What is the reason:">
-                        </div>
-                            
-                        <button type="submit">Apply!</button>
-                        </form>
-                    </div> 
-                 </div>
+                    
+                    <h1>Your profile details are:</h1>
+                    <br>
+                    <div class="input-group">
+                        <label for = "name">Full Name: <%= user.name %></label>
+                    </div>
+                    <div class="input-group">
+                        <label for = "email">Email: <%= user.email %></label>
+                    </div>
+                    <div class="input-group">
+                        <label for = "contact">Contact: <%= user.contactNumber %></label>
+                    </div>
+                    <div class="input-group">
+                        <label for = "position">Position: <%= user.position %></label>
+                    </div>
+                    <div class="input-group">
+                        <label for = "role">Role: <%= user.role %></label>
+                    </div>
+                      
+                </div>       
             </div>
-            
         </div>
+    </div>
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"

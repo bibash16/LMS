@@ -13,6 +13,7 @@ router.post('/logout', authController.postLogout);
 
 router.route('/get-all-user-info')
     .get(authController.restrictTo('admin'), adminController.getAllUsers);
+router.get('/adminProfile', adminController.showProfile)
 
 
 module.exports = router;
