@@ -7,12 +7,16 @@ router.get('/registration', authController.getSignUp);
 router.post('/postSignUp', authController.postSignUp);
 router.get('/login', authController.getLogin);
 router.post('/postLogin', authController.postLogin)
-router.get('/dashboard',authController.protect, userController.dashboard);
+
+//protects all routes after logging in 
+router.use(authController.protect);
+router.get('/dashboard', userController.dashboard);
 router.post('/postLeaveApplication', userController.postLeaveApplication);
-router.get('/leave-request',authController.protect, userController.getLeaveApplication);
+router.get('/leave-request', userController.getLeaveApplication);
 router.post('/logout', authController.postLogout);
 
+
 router.route('/get-user-info')
-    .get(authController.protect, userController.getUserInfo);
+    .get(userController.getUserInfo);
 
 module.exports = router;
