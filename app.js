@@ -40,6 +40,7 @@ app.use('/api/v1/admin', adminRouter);
 
 //error handling for invalid routes
 app.all('*',(req,res,next) => {
+  //res.redirect('/api/user/login');
  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
