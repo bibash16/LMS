@@ -4,8 +4,21 @@ const catchAsync = require('./../util/catchAsync');
 const AppError = require('./../util/appError');
 const path = require('path');
 
-exports.dashboard = catchAsync(async(req,res,next)=>{
-  res.render(path.join(__dirname,'..','public','html','adminHTML','adminDashboard.ejs'),{user: req.user});
+exports.dashboard = catchAsync(async (req, res, next) => {
+  try {
+    // Fetch user data
+    const users = await User.find({});
+    
+    // Render the admin dashboard view with user data
+    res.render(path.join(__dirname, '..', 'public', 'html', 'adminHTML', 'adminDashboard.ejs'), {
+      user: req.user,
+      users: users
+    });
+  } catch (err) {
+    // Handle errors
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 exports.showProfile = catchAsync(async(req,res,next)=>{
