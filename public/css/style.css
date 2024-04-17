@@ -184,3 +184,33 @@ button:hover {
 button[type="submit"] {
     margin-top: 10px;
 }
+.rectangle-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1%;
+}
+
+/* Define styles for user rectangles */
+.user-rectangle {
+    width: 50%;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.user-details p {
+    margin: 5px 0;
+}
+.user-rectangle {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+.user-details p {
+    margin: 5px 0;
+}

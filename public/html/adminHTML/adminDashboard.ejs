@@ -32,7 +32,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="leaveRequest" class="sidebar-link">
+                    <a href="leaveRequests" class="sidebar-link">
                         <i class="lni lni-add-files"></i>
                         <span>Leave Requests</span>
                     </a>
@@ -72,6 +72,19 @@
                 <h1>
                     Welcome to Leave Management System
                 </h1>
+                <h2>All Users:</h2>
+                <% users.forEach((user, index) => { %>
+                    <div class="rectangle-container">
+                        <div class="user-rectangle user-rectangle<%= index %>">
+                            <div class="user-details">
+                                <p><strong>Name:</strong> <%= user.name %></p>
+                                <p><strong>Email:</strong> <%= user.email %></p>
+                                <p><strong>Contact Number:</strong> <%= user.contactNumber %></p>
+                                <p><strong>Position:</strong> <%= user.position %></p>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
             </div>
         </div>
     </div>
