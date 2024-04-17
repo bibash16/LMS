@@ -71,7 +71,7 @@ exports.postLogin = catchAsync(async (req,res,next) =>{
 exports.postLogout = catchAsync(async (req,res,next) => {
   res.cookie('jwt', '', { expires: new Date(0), httpOnly: true });
 
-  res.status(200).redirect('/api/user/login');
+  res.status(200).redirect('/');
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
