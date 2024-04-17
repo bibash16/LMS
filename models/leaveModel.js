@@ -1,8 +1,13 @@
 const mongoose = require('mongoose');
 const validator = require('mongoose');
+const User = require('./../models/userModel');
 
 const leaveSchema = new mongoose.Schema(
     {
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+  },
     name: {
         type: String,
         required: [true, 'Please enter your full name.'],
