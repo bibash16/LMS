@@ -9,6 +9,7 @@ router.use(authController.protect);
 router.get('/dashboard', authController.restrictTo('admin'), adminController.dashboard);
 router.post('/logout', authController.postLogout);
 router.get('/adminProfile', adminController.showProfile)
+router.get('/leaveRequests', authController.restrictTo('admin'), adminController.leaveRequests);
 
 
 module.exports = router;

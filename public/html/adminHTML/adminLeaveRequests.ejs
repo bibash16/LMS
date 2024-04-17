@@ -32,7 +32,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="leaveRequests" class="sidebar-link">
+                    <a href="leaveRequest" class="sidebar-link">
                         <i class="lni lni-add-files"></i>
                         <span>Leave Requests</span>
                     </a>
@@ -66,21 +66,22 @@
         </aside>
         <div class="main p-3">
             <div class="text-center">
-                <h1>
-                    Hello <%= user.name %>!
-                </h1>
+                
                 <h1>
                     Welcome to Leave Management System
                 </h1>
-                <h2>All Users:</h2>
-                <% users.forEach((user, index) => { %>
+                <h2>All Requested Leaves:</h2>
+                <% leaves.forEach((leave, index) => { %>
                     <div class="rectangle-container">
                         <div class="user-rectangle user-rectangle<%= index %>">
                             <div class="user-details">
-                                <p><strong>Name:</strong> <%= user.name %></p>
-                                <p><strong>Email:</strong> <%= user.email %></p>
-                                <p><strong>Contact Number:</strong> <%= user.contactNumber %></p>
-                                <p><strong>Position:</strong> <%= user.position %></p>
+                                <p><strong>Name:</strong> <%= leave.name %></p>
+                                <p><strong>Email:</strong> <%= leave.email %></p>
+                                <p><strong>Start Date:</strong> <%= leave.startdate %></p>
+                                <p><strong>End Date:</strong> <%= leave.enddate %></p>
+                                <p><strong>Type of Leave:</strong> <%= leave.leavetype %></p>
+                                <p><strong>Status:</strong> <%= leave.status %></p>
+                                <p><strong>Description:</strong> <%= leave.description %></p>
                             </div>
                         </div>
                     </div>

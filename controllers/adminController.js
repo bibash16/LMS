@@ -61,9 +61,19 @@ exports.deleteLeave = (req, res) => {
     message: 'This route is not yet defined!'
   });
 };
-exports.leaveHistory = (req, res) => {
-  res.status(500).json({
-    status: 'error',
-    message: 'This route is not yet defined!'
-  });
+exports.leaveRequests = async (req, res, next) => {
+  try {
+    // Fetch user data
+    const leaves = await Leave.find({});
+    
+    // Render the admin dashboard view with user data
+    res.render(path.join(__dirname, '..', 'public', 'html', 'adminHTML', 'adminLeaveRequests.ejs'), {
+      leave: req.leave,
+      leaves: leaves
+    });
+  } catch (err) {
+    // Handle errors
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+  }
 };
