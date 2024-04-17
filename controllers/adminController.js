@@ -66,6 +66,7 @@ exports.leaveRequests = async (req, res, next) => {
     // Fetch user data
     const leaves = await Leave.find({});
     
+    
     // Render the admin dashboard view with user data
     res.render(path.join(__dirname, '..', 'public', 'html', 'adminHTML', 'adminLeaveRequests.ejs'), {
       leave: req.leave,
