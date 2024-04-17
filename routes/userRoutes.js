@@ -16,5 +16,7 @@ router.post('/postLeaveApplication', userController.postLeaveApplication);
 router.get('/leaveRequest', userController.getLeaveApplication);
 router.get('/profile', userController.showProfile)
 router.post('/logout', authController.postLogout);
+router.get('/leaveHistory', userController.leaveRequests);
+
 
 module.exports = router;
