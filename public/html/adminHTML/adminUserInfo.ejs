@@ -14,19 +14,28 @@
         <%- include('../includes/adminSidebar.ejs')%>
         <div class="main p-3">
             <div class="text-center">
-                <h1>All Users:</h1>
-                <% users.forEach((user, index) => { %>
-                    <div class="rectangle-container">
-                        <div class="user-rectangle user-rectangle<%= index %>">
-                            <div class="user-details">
-                                <p><strong>Name:</strong> <%= user.name %></p>
-                                <p><strong>Email:</strong> <%= user.email %></p>
-                                <p><strong>Contact Number:</strong> <%= user.contactNumber %></p>
-                                <p><strong>Position:</strong> <%= user.position %></p>
-                            </div>
-                        </div>
+                <table>
+                    <div class :user-table >
+                       <thead>
+                           <tr>
+                               <th>Name</th>
+                               <th>Email</th>
+                               <th>Contact Number</th>
+                               <th>Position</th>
+                           </tr>
+                       </thead>
+                       <tbody>
+                           <% users.forEach((user, index) => { %>
+                               <tr>
+                                   <td><%= user.name %></td>
+                                   <td><%= user.email %></td>
+                                   <td><%= user.contactNumber %></td>
+                                   <td><%= user.position %></td>
+                               </tr>
+                           <% }); %>
+                       </tbody>
                     </div>
-                <% }); %>
+                </table>
             </div>
         </div>
     </div>

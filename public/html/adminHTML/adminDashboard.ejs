@@ -20,31 +20,6 @@
                 <h1>
                     Welcome to Leave Management System
                 </h1>
-                
-                <h2>All Users:</h2>
-                <table>
-                 <div class :user-table >
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Contact Number</th>
-                            <th>Position</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% users.forEach((user, index) => { %>
-                            <tr>
-                                <td><%= user.name %></td>
-                                <td><%= user.email %></td>
-                                <td><%= user.contactNumber %></td>
-                                <td><%= user.position %></td>
-                            </tr>
-                        <% }); %>
-                    </tbody>
-                </table>
-                </div>
-               </div>
             </div>
         </div>
     </div>
