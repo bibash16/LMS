@@ -211,6 +211,18 @@ button[type="submit"] {
     border-radius: 10px;
 }
 
-.user-details p {
-    margin: 5px 0;
+.user-table {
+    border-collapse: collapse;
 }
+
+.user-table th, .user-table td {
+    border: 1px solid black;
+    padding: 8px;
+}
+
+table, td,tr,th{
+    align-items: center;
+    margin: auto;
+    border: 1px solid black;
+}
+
