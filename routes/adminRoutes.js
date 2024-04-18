@@ -10,6 +10,7 @@ router.get('/dashboard', authController.restrictTo('admin'), adminController.das
 router.get('/logout', authController.postLogout);
 router.get('/adminProfile', adminController.showProfile)
 router.get('/leaveRequests', authController.restrictTo('admin'), adminController.leaveRequests);
+router.get('/userInfo', adminController.userInfo);
 
 
 module.exports = router;
