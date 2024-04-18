@@ -15,43 +15,41 @@
         <%- include('../includes/userSidebar.ejs')%>
         <div class="main p-3">
             <div class="text-center">
-               <h1>Your leave requests are listed below:</h1>
+                <h1>Your leave requests are listed below:</h1>
                 <% if (leaveRecords && leaveRecords.length > 0) { %>
-                <% leaveRecords.forEach(leave => { %>
-                    <div class="rectangle-container">
-                        <div class="rectangle">
-                            <br>
-                            <div class="input-group">
-                                <label for = "startdate">Start Date: <%= leave.startDate %></label>
-                            </div>
-                            <div class="input-group">
-                                <label for = "enddate">End Date: <%= leave.endDate %></label>
-                            </div>
-                            <div class="input-group">
-                                <label for = "leavetype">Type of Leave: <%= leave.leaveType %></label>
-                            </div>
-                            <div class="input-group">
-                                <label for = "description">description: <%= leave.description %></label>
-                            </div>
-                            <div class="input-group">
-                                <label for = "status">Status: <%= leave.status %></label>
-                            </div>
-                        </div>       
-                    </div>
-                <% }) %>
+                <table class="user-table">
+                    <thead>
+                        <tr>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Type of Leave</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% leaveRecords.forEach(leave => { %>
+                            <tr>
+                                <td><%= leave.startDate %></td>
+                                <td><%= leave.endDate %></td>
+                                <td><%= leave.leaveType %></td>
+                                <td><%= leave.description %></td>
+                                <td><%= leave.status %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
                 <% } else { %>
                 <p>No leave requests found.</p>
-                <% }; %> 
+                <% }; %>
             </div>
         </div>
     </div>
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
     <script src="/js/bootstrapScript.js"></script>
-
 
 </body>
 </html>

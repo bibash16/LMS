@@ -211,23 +211,41 @@ button[type="submit"] {
     border-radius: 10px;
 }
 
-.user-table {
+/* Define a color scheme */
+:root {
+    --primary-color: #043b75; /* Primary color (blue) */
+    --secondary-color: #1a97eb; /* Secondary color (gray) */
+    --light-color: #87d2f2; /* Light color (off-white) */
+}
+
+/* Style the table */
+table {
+    width: 100%;
     border-collapse: collapse;
+    margin-top: 20px;
+    border: 1px solid var(--secondary-color); 
 }
 
-.user-table th, .user-table td {
-    border: 1px solid black;
-    padding: 8px;
+/* Style table headers */
+table th {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 16px;
+    text-align: left;
 }
 
-table, td,tr,th{
-    align-items: center;
-    margin: auto;
-    border: 1px solid black;
-    padding: 10px;
+/* Style alternating row colors */
+table tbody tr:nth-child(even) {
+    background-color: var(--light-color);
 }
 
-table{
-    width: 90%;
+/* Style table data cells */
+table td {
+    padding: 12px;
 }
 
+/* Style hover effect */
+table tbody tr:hover {
+    background-color: #a0a3a4;
+    transition: background-color 0.3s ease;
+}
