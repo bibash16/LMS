@@ -27,7 +27,6 @@ const leaveSchema = new mongoose.Schema(
              const today = new Date();
             today.setHours(0, 0, 0, 0); // Set hours to midnight for comparison
             return value >= today; // Ensure start date is today or in the future
-        
         },
             message: 'Please provide a valid start date.'
         } },
@@ -48,7 +47,7 @@ const leaveSchema = new mongoose.Schema(
         trim: true
     },
     description: {
-        type:String,
+        type: String,
         trim: true
     },
     status: {

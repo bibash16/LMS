@@ -14,37 +14,34 @@
     <div class="wrapper">
         <%- include('../includes/userSidebar.ejs')%>
         <div class="main p-3">
-            <div class="rectangle-container">
-                <div class="rectangle">
-                    
-                    <h1>Your leave requests are listed below:</h1>
-                    <br>
-                    <% if (leaveRecords && leaveRecords.length > 0) { %>
-                    <% leaveRecords.forEach(leave => { %>
-   
-                    <div class="input-group">
-                        <label for = "email">Email: <%= leave.email %></label>
+            <div class="text-center">
+               <h1>Your leave requests are listed below:</h1>
+                <% if (leaveRecords && leaveRecords.length > 0) { %>
+                <% leaveRecords.forEach(leave => { %>
+                    <div class="rectangle-container">
+                        <div class="rectangle">
+                            <br>
+                            <div class="input-group">
+                                <label for = "startdate">Start Date: <%= leave.startDate %></label>
+                            </div>
+                            <div class="input-group">
+                                <label for = "enddate">End Date: <%= leave.endDate %></label>
+                            </div>
+                            <div class="input-group">
+                                <label for = "leavetype">Type of Leave: <%= leave.leaveType %></label>
+                            </div>
+                            <div class="input-group">
+                                <label for = "description">description: <%= leave.description %></label>
+                            </div>
+                            <div class="input-group">
+                                <label for = "status">Status: <%= leave.status %></label>
+                            </div>
+                        </div>       
                     </div>
-                    <div class="input-group">
-                        <label for = "startdate">Start Date: <%= leave.startdate %></label>
-                    </div>
-                    <div class="input-group">
-                        <label for = "enddate">End Date: <%= leave.enddate %></label>
-                    </div>
-                    <div class="input-group">
-                        <label for = "leavetype">Type of Leave: <%= leave.leavetype %></label>
-                    </div>
-                    <div class="input-group">
-                        <label for = "description">description: <%= leave.description %></label>
-                    </div>
-                    <div class="input-group">
-                        <label for = "status">Status: <%= leave.status %></label>
-                    </div>
-                     <% }) %>
-                    <% } else { %>
-                         <p>No leave requests found.</p>
-                    <% } %> 
-                </div>       
+                <% }) %>
+                <% } else { %>
+                <p>No leave requests found.</p>
+                <% }; %> 
             </div>
         </div>
     </div>
