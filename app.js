@@ -12,6 +12,7 @@ const adminRouter = require('./routes/adminRoutes');
 const app = express();
 
 app.set('view engine', 'ejs');
+app.set('views', 'D:\\LMS\\public\\html\\adminHTML');
 
 app.use(express.json());
 

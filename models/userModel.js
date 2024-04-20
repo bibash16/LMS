@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
@@ -72,6 +73,11 @@ const userSchema = new mongoose.Schema({
     }
 });
 
+userSchema.plugin(mongoosePaginate);
+
+const user = mongoose.model('user', userSchema);
+
+module.exports = user;
 userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
 

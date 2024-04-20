@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-
+/* Reset styles for pseudo-elements */
 ::after,
 ::before {
     box-sizing: border-box;
@@ -7,35 +6,49 @@
     padding: 0;
 }
 
+/* Remove default underline for links */
 a {
     text-decoration: none;
 }
 
+/* Remove default list styles */
 li {
     list-style: none;
 }
 
+/* Define heading styles */
 h1 {
     font-weight: 600;
     font-size: 1.5rem;
 }
 
+/* Define default body font */
 body {
     font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+    height: 100%;
 }
 
+/* Define wrapper styles */
 .wrapper {
     display: flex;
+    width: 100%;
+    height: 100%
 }
 
+/* Define main content container styles */
 .main {
     min-height: 100vh;
     width: 100%;
-    overflow: hidden;
+    overflow: hidden; /* Review this property */
     transition: all 0.35s ease-in-out;
     background-color: #fafbfe;
+    height: 100%; 
 }
 
+/* Define sidebar styles */
 #sidebar {
     width: 70px;
     min-width: 70px;
@@ -46,11 +59,13 @@ body {
     flex-direction: column;
 }
 
+/* Expand sidebar styles */
 #sidebar.expand {
     width: 260px;
     min-width: 260px;
 }
 
+/* Toggle button styles */
 .toggle-btn {
     background-color: transparent;
     cursor: pointer;
@@ -63,16 +78,18 @@ body {
     color: #FFF;
 }
 
+/* Hide sidebar link text when sidebar is collapsed */
 #sidebar:not(.expand) a.sidebar-link span {
     display: none;
-} 
+}
 
+/* Define sidebar link styles */
 .sidebar-nav {
     padding: 2rem 0;
     flex: 1 1 auto;
 }
 
-a.sidebar-link {
+.sidebar-link {
     padding: .625rem 1.625rem;
     color: #FFF;
     display: block;
@@ -86,11 +103,13 @@ a.sidebar-link {
     margin-right: .75rem;
 }
 
-a.sidebar-link:hover {
+/* Style sidebar link on hover */
+.sidebar-link:hover {
     background-color: rgba(255, 255, 255, .075);
     border-left: 3px solid #3b7ddd;
 }
 
+/* Define styles for sidebar dropdown */
 .sidebar-item {
     position: relative;
 }
@@ -112,6 +131,7 @@ a.sidebar-link:hover {
     opacity: 1;
 }
 
+/* Style toggle button animation when expanding/collapsing */
 #sidebar.expand .sidebar-link [data-bs-toggle="collapse"]::after {
     border: solid;
     border-width: 0 .075rem .075rem 0;
@@ -130,13 +150,7 @@ a.sidebar-link:hover {
     transition: all .2s ease-out;
 }
 
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-}
-
+/* Style form elements */
 .rectangle-container {
     display: flex;
     justify-content: center;
@@ -144,6 +158,7 @@ body {
     margin-top: 1%;
 }
 
+/* Define rectangle styles */
 .rectangle {
     width: 50%;
     padding: 20px;
@@ -152,6 +167,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Style input groups */
 .input-group {
     margin-bottom: 20px;
 }
@@ -167,6 +183,7 @@ body {
     border: 1px solid #ccc;
 }
 
+/* Style buttons */
 button {
     width: 100%;
     padding: 10px;
@@ -184,12 +201,6 @@ button:hover {
 button[type="submit"] {
     margin-top: 10px;
 }
-.rectangle-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 1%;
-}
 
 /* Define styles for user rectangles */
 .user-rectangle {
@@ -204,12 +215,6 @@ button[type="submit"] {
 .user-details p {
     margin: 5px 0;
 }
-.user-rectangle {
-    border: 1px solid #ccc;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 10px;
-}
 
 /* Define a color scheme */
 :root {
@@ -223,7 +228,7 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-    border: 1px solid var(--secondary-color); 
+    border: 1px solid var(--secondary-color);
 }
 
 /* Style table headers */
