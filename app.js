@@ -9,6 +9,9 @@ const globalErrorHandler = require('./controllers/errorController');
 const userRouter = require('./routes/userRoutes');
 const adminRouter = require('./routes/adminRoutes');
 
+const paginateLeaveRequests = require('./util/paginateLeaveRequests');
+
+
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -34,7 +37,26 @@ app.use((req, res, next) => {
 app.get('/', (req, res,next) => {
     res.sendFile(path.join(__dirname,'public','html','index.html'));
 });
+app.get('/admin/leaveRequests', async (req, res, next) => {
+  try {
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 10; // Adjust the default limit as needed
 
+      // Call paginateLeaveRequests function to fetch paginated leave requests
+      const { leaves, currentPage, totalPages } = await paginateLeaveRequests(page, limit);
+
+      // Render the view with the paginated data
+      res.render('adminLeaveRequests', {
+          leaves,
+          currentPage,
+          totalPages,
+          limit
+      });
+  } catch (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+  }
+});
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/admin', adminRouter);
 

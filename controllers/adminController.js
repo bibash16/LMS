@@ -2,6 +2,7 @@ const path = require('path');
 const catchAsync = require('./../util/catchAsync');
 const User = require('../models/userModel');
 const paginateLeaveRequests = require('../util/paginateLeaveRequests');
+const mongoosePaginate = require('mongoose-paginate');
 
 exports.dashboard = catchAsync(async (req, res, next) => {
     try {

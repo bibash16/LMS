@@ -24,7 +24,7 @@ router.get('/leaveRequests', authController.restrictTo('admin'), async (req, res
             leaves,
             currentPage,
             totalPages,
-            limit: limit
+            limit
         });
     } catch (err) {
         console.error(err);
