@@ -11,6 +11,16 @@
 
 </head>
 <body>
+    <% if (messages.error) { %>
+    <div class="alert alert-danger" role="alert">
+        <strong><%= messages.error.statusCode %></strong>: <%= messages.error.message %>
+    </div>
+    <% } %>
+    <% if (messages.success) { %>
+    <div class="alert alert-success" role="alert">
+        <%= messages.success %>
+    </div>
+    <% } %>
     <div class="wrapper">
         <%- include('../includes/userSidebar.ejs')%>
         <div class="main p-3">

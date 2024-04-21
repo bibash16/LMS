@@ -116,7 +116,10 @@ exports.getLeaveApplication = (req, res, next) => {
 };
 exports.postLeaveApplication = async (req,res,next) => {
   const userId = req.user._id;
-  const newLeave = await Leave.create({
+  let newLeave;
+
+  try {
+  newLeave = await Leave.create({
     userId,
     name: req.body.name,
     email: req.body.email,
@@ -125,5 +128,14 @@ exports.postLeaveApplication = async (req,res,next) => {
     leaveType: req.body.leavetype,
     description: req.body.description,
   });
+
+    if (newLeave) {
+      req.flash('success', 'Leave application submitted successfully!');
+    } else {
+      req.flash('error', 'Failed to submit leave application.');
+    }
+  } catch (error) {
+      req.flash('error', 'Failed to submit leave application.');
+  }
   res.status(201).redirect('/api/v1/user/dashboard');
 };
