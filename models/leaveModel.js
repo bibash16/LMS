@@ -57,6 +57,15 @@ const leaveSchema = new mongoose.Schema(
 
 });
 
+//used to calculate the days  
+leaveSchema.virtual('leaveDuration').get(function() {
+    const start = this.startDate;
+    const end = this.endDate;
+    const diffTime = Math.abs(end - start);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+});
+
 const leaveRequest = mongoose.model('Leave',leaveSchema);
 
 module.exports = leaveRequest

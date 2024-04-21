@@ -36,15 +36,49 @@ exports.deleteUser = (req, res) => {
   });
 };
 
-exports.approveLeave = (req, res) => {
-  res.status(500).json({
-    status: 'error',
-    message: 'This route is not yet defined!'
-  });
+exports.acceptLeave = async (req, res, next) => {
+    try {
+        const leaveId = req.body.leaveId; 
+
+        if (!leaveId) {
+            return res.status(400).json({ message: 'Invalid request' });
+        }
+
+        const leave = await Leave.findByIdAndUpdate(leaveId, { status: 'Accepted' }, { new: true }); // Update and return updated doc
+        if (!leave) {
+            return res.status(404).json({ message: 'Leave request not found' });
+        }
+
+        // Calculate leave duration
+        const leaveDuration = leave.leaveDuration;
+
+        // Update user's remainingLeave and leaveTaken fields
+        const user = await User.findById(leave.userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Update remainingLeave and leaveTaken based on leave type
+        if (leave.leaveType === 'Casual') {
+            user.remainingLeave.Casual -= leaveDuration;
+            user.leaveTaken.Casual += leaveDuration;
+        } else if (leave.leaveType === 'Sick') {
+            user.remainingLeave.Sick -= leaveDuration;
+            user.leaveTaken.Sick += leaveDuration;
+        }
+
+        await user.save();
+
+        res.status(201).redirect('/api/v1/admin/leaveRequests');
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Error accepting leave request' });
+    }
 };
+
 exports.rejectLeave = async (req, res, next) => {
   try {
-    const leaveId = req.body.leaveId; // Assuming leave ID is in URL parameter
+    const leaveId = req.body.leaveId; 
 
     if (!leaveId) {
       return res.status(400).json({ message: 'Invalid request' });

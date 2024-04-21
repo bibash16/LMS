@@ -12,7 +12,7 @@ router.get('/adminProfile', adminController.showProfile)
 router.get('/leaveRequests', authController.restrictTo('admin'), adminController.leaveRequests);
 router.get('/userInfo', adminController.userInfo);
 
-router.post('/accept-leave', adminController.approveLeave);
+router.post('/accept-leave', adminController.acceptLeave);
 router.post('/reject-leave', adminController.rejectLeave);
 
 
