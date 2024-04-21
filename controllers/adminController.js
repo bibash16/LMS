@@ -42,11 +42,26 @@ exports.approveLeave = (req, res) => {
     message: 'This route is not yet defined!'
   });
 };
-exports.rejectLeave = (req, res) => {
-  res.status(500).json({
-    status: 'error',
-    message: 'This route is not yet defined!'
-  });
+exports.rejectLeave = async (req, res, next) => {
+  try {
+    const leaveId = req.body.leaveId; // Assuming leave ID is in URL parameter
+
+    if (!leaveId) {
+      return res.status(400).json({ message: 'Invalid request' });
+    }
+
+    const leave = await Leave.findByIdAndUpdate(leaveId, { status: 'Rejected' }, { new: true }); // Update and return updated doc
+    if (!leave) {
+      return res.status(404).json({ message: 'Leave request not found' });
+    }
+
+    // Optional: Send notification to user about the rejection (see previous explanation)
+   res.status(201).redirect('/api/v1/admin/leaveRequests');
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Error rejecting leave request' });
+  }
 };
 
 exports.deleteLeave = (req, res) => {
