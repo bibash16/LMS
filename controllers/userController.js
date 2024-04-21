@@ -18,6 +18,7 @@ exports.updateProfile = catchAsync(async(req,res,next)=>{
   res.render(path.join(__dirname,'..','public','html','userHTML','updateProfile.ejs'), {user : req.user})
 });
 
+
 exports.postUpdateProfile = async (req, res, next) => {
    try {
     // Access the logged-in user ID from the middleware
@@ -45,6 +46,43 @@ exports.postUpdateProfile = async (req, res, next) => {
   }
 };
 
+exports.updatePassword = catchAsync(async(req,res,next)=>{
+  
+  res.render(path.join(__dirname,'..','public','html','userHTML','updatePassword.ejs'), {user : req.user})
+});
+
+exports.postUpdatePassword = catchAsync(async(req,res,next)=>{
+  try { 
+  const userId = req.user._id;
+  const { currentPassword, newPassword, confirmPassword } = req.body;
+  
+  const user = await User.findById(userId);
+
+  if (!user) {
+    return res.status(404).json({message: 'User not found!'});
+  }
+
+  //checking if the current password matches
+  const isMatch = await user.correctPassword(currentPassword, user.password);
+  if (!isMatch) {
+    return res.status(401).json({ message: 'Current password is incorrect' });
+  }
+
+  //checking if the new password and confirm password match
+  if (newPassword !== confirmPassword) {
+    return res.status(400).json({ message: 'New password and confirm password do not match' });
+  }
+
+  //updating the password in db
+  user.password = newPassword;
+  await user.save();
+  res.status(201).redirect('/api/v1/user/dashboard');
+
+  } catch (error) { 
+  res.status(500).json({ message: 'Error updating password' });
+
+  }
+});
 
 exports.leaveRequests = async (req, res, next) => {
   const userId = req.user._id;
