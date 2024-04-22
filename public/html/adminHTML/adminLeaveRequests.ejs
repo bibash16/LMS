@@ -36,6 +36,7 @@
                             <th>Status</th>
                             <th>Description</th>
                         </tr>
+
                     </thead>
                     <tbody>
                         <% leaves.forEach((leave, index) => { %>
@@ -47,8 +48,20 @@
                                 <td><%= leave.leaveType %></td>
                                 <td><%= leave.status %></td>
                                 <td><%= leave.description %></td>
+                                <td>  
+                                    <% if (leave.status === 'Pending') { %>
+                                        <form action="/api/v1/admin/accept-leave" method="post">
+                                        <input type="hidden" name="leaveId" value="<%= leave._id %>">
+                                        <button type="submit" class="btn btn-success btn-sm">Accept Leave</button>
+                                        </form>
+                                        <form action="/api/v1/admin/reject-leave" method="post">
+                                        <input type="hidden" name="leaveId" value="<%= leave._id %>">
+                                        <button type="submit" class="btn btn-danger btn-sm">Reject Leave</button>
+                                        </form>
+                                    <% } %>
+                                </td>
                             </tr>
-                            <% }); %> 
+                        <% }); %> 
                     </tbody>
                 </table>
                 <div class="pagination">
