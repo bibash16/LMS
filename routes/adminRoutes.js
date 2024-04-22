@@ -15,4 +15,8 @@ router.get('/leaveRequests', authController.restrictTo('admin'), adminController
 
 router.get('/userInfo', adminController.userInfo);
 
+router.post('/accept-leave', adminController.acceptLeave);
+router.post('/reject-leave', adminController.rejectLeave);
+
+
 module.exports = router;

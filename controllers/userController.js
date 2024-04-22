@@ -18,6 +18,7 @@ exports.updateProfile = catchAsync(async(req,res,next)=>{
   res.render(path.join(__dirname,'..','public','html','userHTML','updateProfile.ejs'), {user : req.user})
 });
 
+
 exports.postUpdateProfile = async (req, res, next) => {
    try {
     // Access the logged-in user ID from the middleware
@@ -35,24 +36,61 @@ exports.postUpdateProfile = async (req, res, next) => {
     }, { new: true }); // Return the updated document
 
     if (!updatedUser) {
-      return res.status(404).json({ message: 'User not found' });
+      req.flash('error', 'User not found!');
+      return res.redirect('/api/v1/user/dashboard');
     }
     //redirect after everything is done
-    res.status(201).redirect('/api/v1/user/dashboard');
+    req.flash('success', 'User Profile updated succesfully!');
+    res.redirect('/api/v1/user/profile');
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error updating user information' });
+    req.flash('error', 'Error updating user information.');
+    res.redirect('/api/v1/user/updateProfile');
   }
 };
 
+exports.updatePassword = catchAsync(async(req,res,next)=>{
+  
+  res.render(path.join(__dirname,'..','public','html','userHTML','updatePassword.ejs'), {user : req.user})
+});
+
+exports.postUpdatePassword = catchAsync(async(req,res,next)=>{
+  try { 
+  const userId = req.user._id;
+  const { currentPassword, newPassword, confirmPassword } = req.body;
+  
+  const user = await User.findById(userId);
+
+  if (!user) {
+    return res.status(404).json({message: 'User not found!'});
+  }
+
+  //checking if the current password matches
+  const isMatch = await user.correctPassword(currentPassword, user.password);
+  if (!isMatch) {
+    return res.status(401).json({ message: 'Current password is incorrect' });
+  }
+
+  //checking if the new password and confirm password match
+  if (newPassword !== confirmPassword) {
+    return res.status(400).json({ message: 'New password and confirm password do not match' });
+  }
+
+  //updating the password in db
+  user.password = newPassword;
+  await user.save();
+  res.status(201).redirect('/api/v1/user/dashboard');
+
+  } catch (error) { 
+  res.status(500).json({ message: 'Error updating password' });
+
+  }
+});
 
 exports.leaveRequests = async (req, res, next) => {
   const userId = req.user._id;
   if (!userId) {
-    return res.status(401).json({
-      status: 'error',
-      message: 'Unauthorized: User ID not found.'
-    });
+    req.flash('error', 'Unauthorized User!');
+    return res.redirect('/api/v1/user/login');
   }
   try {
     const leaveRecords = await Leave.find({ userId })
@@ -60,11 +98,8 @@ exports.leaveRequests = async (req, res, next) => {
      res.render(path.join(__dirname,'..','public','html','userHTML','leaveRequests.ejs'), { leaveRecords });
     }
    catch (error) {
-    console.error(error);
-    res.status(500).json({
-      status: 'error',
-      message: 'Internal Server Error'
-    });
+    res.flash('error', 'Internal Server Error!');
+    res.redirect('/api/v1/user/dashboard');
 }};
 exports.leaveRemaining = (req, res) => {
   res.status(500).json({
@@ -78,7 +113,10 @@ exports.getLeaveApplication = (req, res, next) => {
 };
 exports.postLeaveApplication = async (req,res,next) => {
   const userId = req.user._id;
-  const newLeave = await Leave.create({
+  let newLeave;
+
+  try {
+  newLeave = await Leave.create({
     userId,
     name: req.body.name,
     email: req.body.email,
@@ -87,5 +125,14 @@ exports.postLeaveApplication = async (req,res,next) => {
     leaveType: req.body.leavetype,
     description: req.body.description,
   });
+
+    if (newLeave) {
+      req.flash('success', 'Leave application submitted successfully!');
+    } else {
+      req.flash('error', 'Failed to submit leave application.');
+    }
+  } catch (error) {
+      req.flash('error', 'Failed to submit leave application.');
+  }
   res.status(201).redirect('/api/v1/user/dashboard');
 };

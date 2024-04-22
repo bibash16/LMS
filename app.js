@@ -2,6 +2,8 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const flash = require('connect-flash');
 
 const AppError = require('./util/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -22,14 +24,25 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+
 app.use(cookieParser());
+
+app.use(session({
+  secret: 'secrets-secret-key',
+  resave: true,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}));
+
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-//just a testing middleware
+app.use(flash());
+
+//clearing flash messages after they have been displayed
 app.use((req, res, next) => {
-  req.requestTime = new Date().toISOString();
-   //console.log(req.headers);
+  res.locals.messages = req.flash();
   next();
 });
 

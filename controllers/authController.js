@@ -24,7 +24,6 @@ exports.postSignUp = catchAsync(async(req,res,next) => {
         name: fullName,
         email: req.body.email,
         password: req.body.password,
-        passwordConfirm: req.body.passwordConfirm,
         position: req.body.position,
         contactNumber: req.body.contact,
         passwordCreatedAt: req.body.passwordCreatedAt
@@ -37,21 +36,25 @@ exports.postSignUp = catchAsync(async(req,res,next) => {
 
 exports.getLogin = catchAsync(async (req,res,next) => {
 
-    res.sendFile(path.join(__dirname, '..','public', 'html', 'login.html'));
+  res.render(path.join(__dirname, '..','public', 'html', 'login.ejs'));
 });
 
-exports.postLogin = catchAsync(async (req, res, next) => {
+exports.postLogin = async (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
 
+  try {
+
   if (!email || !password) {
-      return next(new AppError('Please provide email and password!', 400));
+    req.flash('error', 'Please provide Email and Password.'); 
+    res.redirect('/api/v1/user/login');
   }
 
   const user = await User.findOne({ email }).select('+password');
 
   if (!user || !(await user.correctPassword(password, user.password))) {
-      return next(new AppError('Incorrect email and password!', 401));
+    req.flash('error', 'Incorrect email or password.');
+    res.redirect('/api/v1/user/login');
   }
 
   const token = signToken(user._id);
@@ -69,7 +72,10 @@ exports.postLogin = catchAsync(async (req, res, next) => {
 
   const redirectUrl = user.role === 'admin' ? '/api/v1/admin/dashboard' : '/api/v1/user/dashboard';
   res.status(200).redirect(redirectUrl);
-});
+  } catch (error) {
+     req.flash('error', 'Failed to login! Try Again with correct credentials.');
+  }
+};
 
 exports.postLogout = catchAsync(async (req,res,next) => {
   res.cookie('jwt', '', { expires: new Date(0), httpOnly: true });

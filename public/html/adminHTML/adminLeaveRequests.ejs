@@ -14,6 +14,16 @@
         <%- include('../includes/adminSidebar.ejs')%>
         <div class="main p-3">
             <div class="text-center">
+                <% if (messages.error) { %>
+                <div class="alert alert-danger" role="alert">
+                    <strong><%= messages.error.statusCode %></strong>: <%= messages.error.message %>
+                </div>
+                <% } %>
+                <% if (messages.success) { %>
+                <div class="alert alert-success" role="alert">
+                    <%= messages.success %>
+                </div>
+                <% } %>
                 <h1>All Requested Leaves:</h1>
                 <table>
                     <thead>
@@ -55,7 +65,6 @@
                         <a href="/api/v1/admin/leaveRequests?page=<%= currentPage + 1 %>&limit=<%= limit %>">Next</a>
                     <% } %>
                 </div>
-                
                 
             </div>
         </div>

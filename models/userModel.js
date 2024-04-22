@@ -39,34 +39,24 @@ const userSchema = new mongoose.Schema({
         minlength: [5, 'Password must have at least 5 characters']
     },
 
-    passwordConfirm: {
-        type: String,
-        required: [true, 'Please confirm your password.'],
-        validate: {
-            validator: function (value) {
-                return value === this.password;
-            },
-            message: 'The passwords do not match.'
-        }
-    },
     passwordChangedAt: Date,
     
     remainingLeave: {
-        casual: {
+        Casual: {
             type: Number,
             default: 10
         },
-        sick: {
+        Sick: {
             type: Number,
             default: 15
         }
     },
     leaveTaken: {
-        casual: {
+        Casual: {
             type: Number,
             default: 0
         },
-        sick: {
+        Sick: {
             type: Number,
             default: 0
         }
@@ -82,7 +72,6 @@ userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
 
     this.password = await bcrypt.hash(this.password, 12);
-    this.passwordConfirm = undefined;
     next();
 });
 
