@@ -11,9 +11,13 @@ const globalErrorHandler = require('./controllers/errorController');
 const userRouter = require('./routes/userRoutes');
 const adminRouter = require('./routes/adminRoutes');
 
+const paginateLeaveRequests = require('./util/paginateLeaveRequests');
+
+
 const app = express();
 
 app.set('view engine', 'ejs');
+app.set('views', 'D:\\LMS\\public\\html\\adminHTML');
 
 app.use(express.json());
 
@@ -46,7 +50,6 @@ app.use((req, res, next) => {
 app.get('/', (req, res,next) => {
     res.sendFile(path.join(__dirname,'public','html','index.html'));
 });
-
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/admin', adminRouter);
 
