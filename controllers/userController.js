@@ -36,13 +36,15 @@ exports.postUpdateProfile = async (req, res, next) => {
     }, { new: true }); // Return the updated document
 
     if (!updatedUser) {
-      return res.status(404).json({ message: 'User not found' });
+      req.flash('error', 'User not found!');
+      return res.redirect('/api/v1/user/dashboard');
     }
     //redirect after everything is done
-    res.status(201).redirect('/api/v1/user/dashboard');
+    req.flash('success', 'User Profile updated succesfully!');
+    res.redirect('/api/v1/user/profile');
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error updating user information' });
+    req.flash('error', 'Error updating user information.');
+    res.redirect('/api/v1/user/updateProfile');
   }
 };
 
@@ -87,10 +89,8 @@ exports.postUpdatePassword = catchAsync(async(req,res,next)=>{
 exports.leaveRequests = async (req, res, next) => {
   const userId = req.user._id;
   if (!userId) {
-    return res.status(401).json({
-      status: 'error',
-      message: 'Unauthorized: User ID not found.'
-    });
+    req.flash('error', 'Unauthorized User!');
+    return res.redirect('/api/v1/user/login');
   }
   try {
     const leaveRecords = await Leave.find({ userId })
@@ -98,11 +98,8 @@ exports.leaveRequests = async (req, res, next) => {
      res.render(path.join(__dirname,'..','public','html','userHTML','leaveRequests.ejs'), { leaveRecords });
     }
    catch (error) {
-    console.error(error);
-    res.status(500).json({
-      status: 'error',
-      message: 'Internal Server Error'
-    });
+    res.flash('error', 'Internal Server Error!');
+    res.redirect('/api/v1/user/dashboard');
 }};
 exports.leaveRemaining = (req, res) => {
   res.status(500).json({
