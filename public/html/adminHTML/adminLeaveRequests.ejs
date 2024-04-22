@@ -35,6 +35,7 @@
                             <th>Leave Type</th>
                             <th>Status</th>
                             <th>Description</th>
+                            <th>Action</th>
                         </tr>
 
                     </thead>
@@ -52,11 +53,11 @@
                                     <% if (leave.status === 'Pending') { %>
                                         <form action="/api/v1/admin/accept-leave" method="post">
                                         <input type="hidden" name="leaveId" value="<%= leave._id %>">
-                                        <button type="submit" class="btn btn-success btn-sm">Accept Leave</button>
+                                        <button type="submit" class="btn btn-success btn-sm">Accept</button>
                                         </form>
                                         <form action="/api/v1/admin/reject-leave" method="post">
                                         <input type="hidden" name="leaveId" value="<%= leave._id %>">
-                                        <button type="submit" class="btn btn-danger btn-sm">Reject Leave</button>
+                                        <button type="submit" class="btn btn-danger btn-sm">Reject</button>
                                         </form>
                                     <% } %>
                                 </td>

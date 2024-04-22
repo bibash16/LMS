@@ -105,7 +105,7 @@ exports.deleteLeave = (req, res) => {
 exports.leaveRequests = catchAsync(async (req, res, next) => {
   try {
       const page = parseInt(req.query.page) || 1;
-      const limit = parseInt(req.query.limit) || 8;
+      const limit = parseInt(req.query.limit) || 5;
 
       // Fetch paginated leave requests
       const { leaves, currentPage, totalPages } = await paginateLeaveRequests(page, limit);
