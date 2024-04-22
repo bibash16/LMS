@@ -1,6 +1,7 @@
 const path = require('path');
 const catchAsync = require('./../util/catchAsync');
 const User = require('../models/userModel');
+const Leave = require('./../models/leaveModel');
 const paginateLeaveRequests = require('../util/paginateLeaveRequests');
 const mongoosePaginate = require('mongoose-paginate');
 
