@@ -57,19 +57,17 @@ exports.deleteLeave = (req, res) => {
 exports.leaveRequests = catchAsync(async (req, res, next) => {
   try {
       const page = parseInt(req.query.page) || 1;
-      const limit = parseInt(req.query.limit) || 2;
+      const limit = parseInt(req.query.limit) || 8;
 
       // Fetch paginated leave requests
       const { leaves, currentPage, totalPages } = await paginateLeaveRequests(page, limit);
-
-      console.log("Current Page:", currentPage); // Log current page
-      console.log("Total Pages:", totalPages);   // Log total pages
 
       // Render the admin leave requests view with paginated leave requests data
       res.render(path.join(__dirname, '..', 'public', 'html', 'adminHTML', 'adminLeaveRequests.ejs'), {
           leaves,
           currentPage, // Ensure currentPage is correctly passed
-          totalPages // Ensure totalPages is correctly passed
+          totalPages,
+          limit // Ensure totalPages is correctly passed
       });
   } catch (err) {
       // Handle errors
