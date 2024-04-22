@@ -17,12 +17,12 @@
             <div class="text-center">
                 <% if (messages.error) { %>
                 <div class="alert alert-danger" role="alert">
-                    <strong><%= messages.error[0].statusCode %></strong>: <%= messages.error[0].message %>
+                    <strong><%= messages.error.statusCode %></strong>: <%= messages.error.message %>
                 </div>
                 <% } %>
                 <% if (messages.success) { %>
                 <div class="alert alert-success" role="alert">
-                    <%= messages.success[0] %>
+                    <%= messages.success %>
                 </div>
                 <% } %>
                 <h1>Your leave requests are listed below:</h1>
@@ -44,7 +44,17 @@
                                 <td><%= leave.endDate %></td>
                                 <td><%= leave.leaveType %></td>
                                 <td><%= leave.description %></td>
-                                <td><%= leave.status %></td>
+                                <td class="
+                                    <% switch (leave.status) { 
+                                    case 'Pending': %> leavestatuspending
+                                    <% break;
+                                    case 'Accepted': %> leavestatusaccepted
+                                    <% break;
+                                    case 'Rejected': %> leavestatusrejected
+                                    <% break;
+                                    default: %> 
+                                    <% } %>"
+                                ><%= leave.status %></td>
                             </tr>
                         <% }) %>
                     </tbody>
