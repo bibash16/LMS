@@ -2,6 +2,7 @@ const User = require('./../models/userModel');
 const Leave = require('./../models/leaveModel');
 const catchAsync = require('./../util/catchAsync');
 const AppError = require('./../util/appError');
+const paginateusermodel = require('../util/paginateusermodel');
 const path = require('path');
 
 exports.dashboard = catchAsync(async(req,res,next)=>{
@@ -87,20 +88,36 @@ exports.postUpdatePassword = catchAsync(async(req,res,next)=>{
 });
 
 exports.leaveRequests = async (req, res, next) => {
-  const userId = req.user._id;
-  if (!userId) {
-    req.flash('error', 'Unauthorized User!');
-    return res.redirect('/api/v1/user/login');
-  }
   try {
-    const leaveRecords = await Leave.find({ userId })
-      .populate('userId','-password -role'); 
-     res.render(path.join(__dirname,'..','public','html','userHTML','leaveRequests.ejs'), { leaveRecords });
+    // Check if the user is authenticated
+    const userId = req.user._id;
+    if (!userId) {
+      req.flash('error', 'Unauthorized User!');
+      return res.redirect('/api/v1/user/login');
     }
-   catch (error) {
-    res.flash('error', 'Internal Server Error!');
-    res.redirect('/api/v1/user/dashboard');
-}};
+    
+    // Parse query parameters for pagination
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 3;
+
+    // Fetch paginated leave requests
+    const { leaves, currentPage, totalPages } = await paginateusermodel(page, limit);
+
+    // Render the leave requests view with paginated data
+    res.render(path.join(__dirname, '..', 'public', 'html', 'userHTML', 'leaveRequests.ejs'), {
+      leaveRecords: leaves, // Change 'leaves' to 'leaveRecords'
+      currentPage,
+      totalPages,
+      limit
+    });
+  } catch (err) {
+    // Handle errors
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+  }
+};
+
+
 exports.leaveRemaining = (req, res) => {
   res.status(500).json({
     status: 'error',

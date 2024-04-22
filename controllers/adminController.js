@@ -120,24 +120,33 @@ exports.deleteLeave = (req, res) => {
         message: 'This route is not yet defined!'
     });
 };// Modified leaveRequests function with pagination
-exports.leaveRequests = catchAsync(async (req, res, next) => {
-  try {
+exports.leaveRequests = async (req, res, next) => {
+    try {
+      // Check if the user is authenticated
+      const userId = req.user._id;
+      if (!userId) {
+        req.flash('error', 'Unauthorized User!');
+        return res.redirect('/api/v1/user/login');
+      }
+      
+      // Parse query parameters for pagination
       const page = parseInt(req.query.page) || 1;
-      const limit = parseInt(req.query.limit) || 5;
-
+      const limit = parseInt(req.query.limit) || 3;
+  
       // Fetch paginated leave requests
-      const { leaves, currentPage, totalPages } = await paginateLeaveRequests(page, limit);
-
-      // Render the admin leave requests view with paginated leave requests data
-      res.render(path.join(__dirname, '..', 'public', 'html', 'adminHTML', 'adminLeaveRequests.ejs'), {
-          leaves,
-          currentPage, // Ensure currentPage is correctly passed
-          totalPages,
-          limit // Ensure totalPages is correctly passed
+      const { leaves, currentPage, totalPages } = await paginateusermodel(page, limit);
+  
+      // Render the leave requests view with paginated data
+      res.render(path.join(__dirname, '..', 'public', 'html', 'userHTML', 'leaveRequests.ejs'), {
+        leaveRecords: leaves, // Change 'leaves' to 'leaveRecords'
+        currentPage,
+        totalPages,
+        limit
       });
-  } catch (err) {
+    } catch (err) {
       // Handle errors
       console.error(err);
       res.status(500).send('Internal Server Error');
-  }
-});
+    }
+  };
+  

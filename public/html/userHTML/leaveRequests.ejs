@@ -49,6 +49,22 @@
                         <% }) %>
                     </tbody>
                 </table>
+                <div class="paginationuser">
+                    <!-- Previous button -->
+                    <% if (currentPage > 1) { %>
+                        <a href="/api/v1/user/leaveHistory?page=<%= currentPage - 1 %>&limit=<%= limit %>">Previous</a>
+                    <% } %>
+                    
+                    <!-- Current page number -->
+                    <span>Page <%= currentPage %> of <%= totalPages %></span>
+                    
+                    <!-- Next button -->
+                  <!-- Next button -->
+                    <% if (currentPage < totalPages) { %>
+                      <a href="/api/v1/user/leaveHistory?page=<%= currentPage + 1 %>&limit=<%= limit %>">Next</a>
+                    <% } %>
+
+                </div>
                 <% } else { %>
                 <p>No leave requests found.</p>
                 <% }; %>
