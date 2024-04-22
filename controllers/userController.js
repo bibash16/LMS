@@ -62,28 +62,32 @@ exports.postUpdatePassword = catchAsync(async(req,res,next)=>{
   const user = await User.findById(userId);
 
   if (!user) {
-    return res.status(404).json({message: 'User not found!'});
+    req.flash('error', 'User not found.'); 
+    return res.redirect('/api/v1/user/login');
   }
 
   //checking if the current password matches
   const isMatch = await user.correctPassword(currentPassword, user.password);
   if (!isMatch) {
-    return res.status(401).json({ message: 'Current password is incorrect' });
+    req.flash('error', { statusCode: 400, message:'Current Password is Incorrect'}); 
+    return res.redirect('/api/v1/user/updatePassword');
   }
 
   //checking if the new password and confirm password match
   if (newPassword !== confirmPassword) {
-    return res.status(400).json({ message: 'New password and confirm password do not match' });
+    req.flash('error',{ statusCode: 400, message: 'New password and confirm password do not match!'}); 
+    return res.redirect('/api/v1/user/updatePassword');
   }
 
   //updating the password in db
   user.password = newPassword;
   await user.save();
+  req.flash('success', 'User Password updated succesfully!');
   res.status(201).redirect('/api/v1/user/dashboard');
 
   } catch (error) { 
-  res.status(500).json({ message: 'Error updating password' });
-
+   req.flash('error',{ statusCode: 400, message: 'Error updating password'}); 
+   return res.redirect('/api/v1/user/updatePassword');
   }
 });
 
