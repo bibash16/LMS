@@ -14,10 +14,18 @@ const signToken = id => {
 };
 
 exports.getSignUp = catchAsync(async(req,res,next)=>{
-  res.sendFile(path.join(__dirname,'..','public','html','registration.html'));
+  res.render(path.join(__dirname,'..','public','html','registration.ejs'));
 });
 
-exports.postSignUp = catchAsync(async(req,res,next) => {
+exports.postSignUp = async(req,res,next) => {
+   try {
+    const existingUser = await User.findOne({email: req.body.email});
+
+    if(existingUser) { 
+      req.flash('error', 'Email already exists! Please choose a different email.');
+      return res.status(400).redirect('/api/v1/user/registration');
+    }
+
     const fullName = req.body.firstname+' '+req.body.lastname;
     const newUser = await User.create({
         
@@ -31,8 +39,12 @@ exports.postSignUp = catchAsync(async(req,res,next) => {
 
     const token = signToken(newUser._id);
 
-    res.status(201).redirect('/api/v1/user/login');
-});
+    res.redirect('/api/v1/user/login');
+   }catch (error) {
+      req.flash('error', 'Error creating user. Please try again!');
+      return res.status(500).redirect('/api/v1/user/registration');
+    }
+};
 
 exports.getLogin = catchAsync(async (req,res,next) => {
 
