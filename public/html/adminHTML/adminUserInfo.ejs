@@ -11,7 +11,7 @@
 </head>
 <body>
     <div class="wrapper">
-        <%- include('../includes/adminSidebar.ejs')%>
+        <%- include('../includes/adminSidebar.ejs') %>
         <div class="main p-3">
             <div class="text-center">
                 <% if (messages.error) { %>
@@ -24,28 +24,40 @@
                     <%= messages.success[0] %>
                 </div>
                 <% } %>
-                <table>
-                    <div class :user-table >
-                       <thead>
-                           <tr>
-                               <th>Name</th>
-                               <th>Email</th>
-                               <th>Contact Number</th>
-                               <th>Position</th>
-                           </tr>
-                       </thead>
-                       <tbody>
-                           <% users.forEach((user, index) => { %>
-                               <tr>
-                                   <td><%= user.name %></td>
-                                   <td><%= user.email %></td>
-                                   <td><%= user.contactNumber %></td>
-                                   <td><%= user.position %></td>
-                               </tr>
-                           <% }); %>
-                       </tbody>
-                    </div>
+                <table class="user-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Contact Number</th>
+                            <th>Position</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% users.forEach((user, index) => { %>
+                            <tr>
+                                <td><%= user.name %></td>
+                                <td><%= user.email %></td>
+                                <td><%= user.contactNumber %></td>
+                                <td><%= user.position %></td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
                 </table>
+                <div class="userrinfo">
+                    <!-- Previous button -->
+                    <% if (currentPage > 1) { %>
+                        <a href="/api/v1/admin/userInfo?page=<%= currentPage - 1 %>&limit=<%= limit %>">Previous</a>
+                    <% } %>
+                    
+                    <!-- Current page number -->
+                    <span>Page <%= currentPage %> of <%= totalPages %></span>
+                    
+                    <!-- Next button -->
+                    <% if (currentPage < totalPages) { %>
+                        <a href="/api/v1/admin/userInfo?page=<%= currentPage + 1 %>&limit=<%= limit %>">Next</a>
+                    <% } %>
+                </div>
             </div>
         </div>
     </div>
