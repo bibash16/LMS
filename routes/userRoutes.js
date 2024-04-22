@@ -16,7 +16,7 @@ router.post('/postLeaveApplication', userController.postLeaveApplication);
 router.get('/leaveRequest', userController.getLeaveApplication);
 //app functionalities
 router.get('/profile', userController.showProfile)
-router.post('/logout', authController.postLogout);
+router.get('/logout', authController.postLogout);
 router.get('/leaveHistory', userController.leaveRequests);
 //profile settings
 router.get('/updateProfile', userController.updateProfile);
