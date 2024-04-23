@@ -44,11 +44,37 @@
                                 <td><%= leave.endDate %></td>
                                 <td><%= leave.leaveType %></td>
                                 <td><%= leave.description %></td>
-                                <td><%= leave.status %></td>
+                                <td class="
+                                    <% switch (leave.status) { 
+                                    case 'Pending': %> leavestatuspending
+                                    <% break;
+                                    case 'Accepted': %> leavestatusaccepted
+                                    <% break;
+                                    case 'Rejected': %> leavestatusrejected
+                                    <% break;
+                                    default: %> 
+                                    <% } %>"
+                                ><%= leave.status %></td>
                             </tr>
                         <% }) %>
                     </tbody>
                 </table>
+                <div class="paginationuser">
+                    <!-- Previous button -->
+                    <% if (currentPage > 1) { %>
+                        <a href="/api/v1/user/leaveHistory?page=<%= currentPage - 1 %>&limit=<%= limit %>">Previous</a>
+                    <% } %>
+                    
+                    <!-- Current page number -->
+                    <span>Page <%= currentPage %> of <%= totalPages %></span>
+                    
+                    <!-- Next button -->
+                  <!-- Next button -->
+                    <% if (currentPage < totalPages) { %>
+                      <a href="/api/v1/user/leaveHistory?page=<%= currentPage + 1 %>&limit=<%= limit %>">Next</a>
+                    <% } %>
+
+                </div>
                 <% } else { %>
                 <p>No leave requests found.</p>
                 <% }; %>

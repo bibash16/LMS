@@ -3,7 +3,9 @@ const catchAsync = require('./../util/catchAsync');
 const User = require('../models/userModel');
 const Leave = require('./../models/leaveModel');
 const paginateLeaveRequests = require('../util/paginateLeaveRequests');
+const userInfos = require('../util/userInfos');
 const mongoosePaginate = require('mongoose-paginate');
+
 
 exports.dashboard = catchAsync(async (req, res, next) => {
     try {
@@ -21,13 +23,28 @@ exports.showProfile = catchAsync(async (req, res, next) => {
 });
 
 exports.userInfo = catchAsync(async (req, res, next) => {
-    const users = await User.find({});
-    res.render(path.join(__dirname, '..', 'public', 'html', 'adminHTML', 'adminUserInfo.ejs'), {
-        user: req.user,
-        users: users
-    });
-});
-
+    //const users = await User.find({});
+   
+        try {
+            const page = parseInt(req.query.page) || 1;
+            const limit = parseInt(req.query.limit) || 5;
+      
+            // Fetch paginated leave requests
+            const { userinformation, currentPage, totalPages } = await userInfos(page, limit);
+      
+            // Render the admin leave requests view with paginated leave requests data
+            res.render(path.join(__dirname, '..', 'public', 'html', 'adminHTML', 'adminUserInfo.ejs'), {
+                currentPage, // Ensure currentPage is correctly passed
+                totalPages,
+                limit,
+                users: userinformation // Ensure totalPages is correctly passed
+            });
+        } catch (err) {
+            // Handle errors
+            console.error(err);
+            res.status(500).send('Internal Server Error');
+        }
+      });
 exports.deleteUser = (req, res) => {
     res.status(500).json({
         status: 'error',
@@ -103,24 +120,33 @@ exports.deleteLeave = (req, res) => {
         message: 'This route is not yet defined!'
     });
 };// Modified leaveRequests function with pagination
-exports.leaveRequests = catchAsync(async (req, res, next) => {
-  try {
+exports.leaveRequests = async (req, res, next) => {
+    try {
+      // Check if the user is authenticated
+      const userId = req.user._id;
+      if (!userId) {
+        req.flash('error', 'Unauthorized User!');
+        return res.redirect('/api/v1/user/login');
+      }
+      
+      // Parse query parameters for pagination
       const page = parseInt(req.query.page) || 1;
-      const limit = parseInt(req.query.limit) || 5;
-
+      const limit = parseInt(req.query.limit) || 3;
+  
       // Fetch paginated leave requests
-      const { leaves, currentPage, totalPages } = await paginateLeaveRequests(page, limit);
-
-      // Render the admin leave requests view with paginated leave requests data
-      res.render(path.join(__dirname, '..', 'public', 'html', 'adminHTML', 'adminLeaveRequests.ejs'), {
-          leaves,
-          currentPage, // Ensure currentPage is correctly passed
-          totalPages,
-          limit // Ensure totalPages is correctly passed
+      const { leaves, currentPage, totalPages } = await paginateusermodel(page, limit);
+  
+      // Render the leave requests view with paginated data
+      res.render(path.join(__dirname, '..', 'public', 'html', 'userHTML', 'leaveRequests.ejs'), {
+        leaveRecords: leaves, // Change 'leaves' to 'leaveRecords'
+        currentPage,
+        totalPages,
+        limit
       });
-  } catch (err) {
+    } catch (err) {
       // Handle errors
       console.error(err);
       res.status(500).send('Internal Server Error');
-  }
-});
+    }
+  };
+  

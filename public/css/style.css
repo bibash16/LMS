@@ -254,3 +254,15 @@ table tbody tr:hover {
     background-color: #a0a3a4;
     transition: background-color 0.3s ease;
 }
+/* Add this to your existing CSS file or create a new one */
+.leavestatusaccepted{
+    color: green; /* Green color for Accepted status */
+}
+
+.leavestatuspending{
+    color: yellow; /* Yellow color for Pending status */
+}
+
+.leavestatusrejected{
+    color: red; /* Red color for Rejected status */
+}

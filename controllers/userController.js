@@ -2,6 +2,7 @@ const User = require('./../models/userModel');
 const Leave = require('./../models/leaveModel');
 const catchAsync = require('./../util/catchAsync');
 const AppError = require('./../util/appError');
+const paginateusermodel = require('../util/paginateusermodel');
 const path = require('path');
 
 exports.dashboard = catchAsync(async(req,res,next)=>{
@@ -61,46 +62,66 @@ exports.postUpdatePassword = catchAsync(async(req,res,next)=>{
   const user = await User.findById(userId);
 
   if (!user) {
-    return res.status(404).json({message: 'User not found!'});
+    req.flash('error', 'User not found.'); 
+    return res.redirect('/api/v1/user/login');
   }
 
   //checking if the current password matches
   const isMatch = await user.correctPassword(currentPassword, user.password);
   if (!isMatch) {
-    return res.status(401).json({ message: 'Current password is incorrect' });
+    req.flash('error', { statusCode: 400, message:'Current Password is Incorrect'}); 
+    return res.redirect('/api/v1/user/updatePassword');
   }
 
   //checking if the new password and confirm password match
   if (newPassword !== confirmPassword) {
-    return res.status(400).json({ message: 'New password and confirm password do not match' });
+    req.flash('error',{ statusCode: 400, message: 'New password and confirm password do not match!'}); 
+    return res.redirect('/api/v1/user/updatePassword');
   }
 
   //updating the password in db
   user.password = newPassword;
   await user.save();
+  req.flash('success', 'User Password updated succesfully!');
   res.status(201).redirect('/api/v1/user/dashboard');
 
   } catch (error) { 
-  res.status(500).json({ message: 'Error updating password' });
-
+   req.flash('error',{ statusCode: 400, message: 'Error updating password'}); 
+   return res.redirect('/api/v1/user/updatePassword');
   }
 });
 
 exports.leaveRequests = async (req, res, next) => {
-  const userId = req.user._id;
-  if (!userId) {
-    req.flash('error', 'Unauthorized User!');
-    return res.redirect('/api/v1/user/login');
-  }
   try {
-    const leaveRecords = await Leave.find({ userId })
-      .populate('userId','-password -role'); 
-     res.render(path.join(__dirname,'..','public','html','userHTML','leaveRequests.ejs'), { leaveRecords });
+    // Check if the user is authenticated
+    const userId = req.user._id;
+    if (!userId) {
+      req.flash('error', 'Unauthorized User!');
+      return res.redirect('/api/v1/user/login');
     }
-   catch (error) {
-    res.flash('error', 'Internal Server Error!');
-    res.redirect('/api/v1/user/dashboard');
-}};
+    
+    // Parse query parameters for pagination
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 3;
+
+    // Fetch paginated leave requests
+    const { leaves, currentPage, totalPages } = await paginateusermodel(page, limit);
+
+    // Render the leave requests view with paginated data
+    res.render(path.join(__dirname, '..', 'public', 'html', 'userHTML', 'leaveRequests.ejs'), {
+      leaveRecords: leaves, // Change 'leaves' to 'leaveRecords'
+      currentPage,
+      totalPages,
+      limit
+    });
+  } catch (err) {
+    // Handle errors
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+  }
+};
+
+
 exports.leaveRemaining = (req, res) => {
   res.status(500).json({
     status: 'error',

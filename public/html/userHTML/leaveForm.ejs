@@ -16,12 +16,12 @@
         <div class="main p-3">
             <% if (messages.error) { %>
             <div class="alert alert-danger" role="alert">
-                <strong><%= messages.error.statusCode %></strong>: <%= messages.error.message %>
+                <strong>Uh Oh!</strong>: <%= messages.error.message %>
             </div>
             <% } %>
             <% if (messages.success) { %>
             <div class="alert alert-success" role="alert">
-                <%= messages.success %>
+                <%= messages.success[0] %>
             </div>
             <% } %>
             <div class="rectangle-container">
