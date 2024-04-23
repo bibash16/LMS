@@ -44,7 +44,7 @@ body {
     width: 100%;
     overflow: hidden; /* Review this property */
     transition: all 0.35s ease-in-out;
-    background-color: #fafbfe;
+    background-color: #dfdfdf;
     height: 100%; 
 }
 
@@ -244,6 +244,10 @@ table tbody tr:nth-child(even) {
     background-color: var(--light-color);
 }
 
+table tbody tr:nth-child(odd) {
+    background-color: #ececec
+}
+
 /* Style table data cells */
 table td {
     padding: 12px;
@@ -251,7 +255,7 @@ table td {
 
 /* Style hover effect */
 table tbody tr:hover {
-    background-color: #a0a3a4;
+    background-color: #bebebe;
     transition: background-color 0.3s ease;
 }
 /* Add this to your existing CSS file or create a new one */

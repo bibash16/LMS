@@ -24,6 +24,7 @@
                     <%= messages.success[0] %>
                 </div>
                 <% } %>
+                <h1>All Users list :</h1>
                 <table class="user-table">
                     <thead>
                         <tr>
@@ -47,7 +48,7 @@
                 <div class="userrinfo">
                     <!-- Previous button -->
                     <% if (currentPage > 1) { %>
-                        <a href="/api/v1/admin/userInfo?page=<%= currentPage - 1 %>&limit=<%= limit %>">Previous</a>
+                        <a href="/api/v1/admin/userInfo?page=<%= currentPage - 1 %>&limit=<%= limit %>">Previous&ensp;</a>
                     <% } %>
                     
                     <!-- Current page number -->
@@ -55,7 +56,7 @@
                     
                     <!-- Next button -->
                     <% if (currentPage < totalPages) { %>
-                        <a href="/api/v1/admin/userInfo?page=<%= currentPage + 1 %>&limit=<%= limit %>">Next</a>
+                        <a href="/api/v1/admin/userInfo?page=<%= currentPage + 1 %>&limit=<%= limit %>">&ensp;Next</a>
                     <% } %>
                 </div>
             </div>

@@ -28,7 +28,7 @@ exports.userInfo = catchAsync(async (req, res, next) => {
    
         try {
             const page = parseInt(req.query.page) || 1;
-            const limit = parseInt(req.query.limit) || 5;
+            const limit = parseInt(req.query.limit) || 10;
       
             // Fetch paginated leave requests
             const { userinformation, currentPage, totalPages } = await userInfos(page, limit);
@@ -132,7 +132,7 @@ exports.leaveRequests = async (req, res, next) => {
       
       // Parse query parameters for pagination
       const page = parseInt(req.query.page) || 1;
-      const limit = parseInt(req.query.limit) || 3;
+      const limit = parseInt(req.query.limit) || 7;
   
       // Fetch paginated leave requests
       const { leaves, currentPage, totalPages } = await paginateusermodel(page, limit);

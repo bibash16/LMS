@@ -65,18 +65,19 @@
                         <% }); %> 
                     </tbody>
                 </table>
-                <div class="pagination">
+                <br>
+                <div class="userinfo">
                     <!-- Previous button -->
                     <% if (currentPage > 1) { %>
-                        <a href="/api/v1/admin/leaveRequests?page=<%= currentPage - 1 %>&limit=<%= limit %>">Previous</a>
+                        <a href="/api/v1/admin/leaveRequests?page=<%= currentPage - 1 %>&limit=<%= limit %>">Previous&ensp;</a>
                     <% } %>
                     
                     <!-- Current page number -->
-                    <span>Page <%= currentPage %> of <%= totalPages %></span>
+                    <span> Page <%= currentPage %> of <%= totalPages %> </span>
                     
                     <!-- Next button -->
                     <% if (currentPage < totalPages) { %>
-                        <a href="/api/v1/admin/leaveRequests?page=<%= currentPage + 1 %>&limit=<%= limit %>">Next</a>
+                        <a href="/api/v1/admin/leaveRequests?page=<%= currentPage + 1 %>&limit=<%= limit %>">&ensp;Next</a>
                     <% } %>
                 </div>
                 
