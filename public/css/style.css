@@ -236,7 +236,7 @@ table th {
     background-color: var(--primary-color);
     color: #fff;
     padding: 16px;
-    text-align: left;
+    text-align: center;
 }
 
 /* Style alternating row colors */
