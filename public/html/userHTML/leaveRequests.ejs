@@ -44,17 +44,23 @@
                                 <td><%= leave.endDate %></td>
                                 <td><%= leave.leaveType %></td>
                                 <td><%= leave.description %></td>
-                                <td class="
+                                <td>
+                                    <button class="
                                     <% switch (leave.status) { 
-                                    case 'Pending': %> leavestatuspending
-                                    <% break;
-                                    case 'Accepted': %> leavestatusaccepted
-                                    <% break;
-                                    case 'Rejected': %> leavestatusrejected
-                                    <% break;
-                                    default: %> 
+                                        case 'Pending': 
+                                            %> leavestatuspending
+                                            <% break;
+                                        case 'Accepted': 
+                                            %> leavestatusaccepted
+                                            <% break;
+                                        case 'Rejected': 
+                                            %> leavestatusrejected
+                                            <% break;
+                                        default: 
+                                        %> 
                                     <% } %>"
-                                ><%= leave.status %></td>
+                                    disabled><%= leave.status %></button>
+                                </td>
                             </tr>
                         <% }) %>
                     </tbody>
