@@ -5,6 +5,7 @@ const Leave = require('./../models/leaveModel');
 const paginateLeaveRequests = require('../util/paginateLeaveRequests');
 const userInfos = require('../util/userInfos');
 const mongoosePaginate = require('mongoose-paginate');
+const paginateusermodel = require('../util/paginateusermodel');
 
 
 exports.dashboard = catchAsync(async (req, res, next) => {
