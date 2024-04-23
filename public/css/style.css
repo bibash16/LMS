@@ -266,3 +266,7 @@ table tbody tr:hover {
 .leavestatusrejected{
     background-color: red; /* Red color for Rejected status */
 }
+
+.leavestatusaccepted,.leavestatuspending,.leavestatusrejected{
+    pointer-events: none;
+}

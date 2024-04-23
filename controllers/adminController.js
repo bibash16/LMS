@@ -138,7 +138,7 @@ exports.leaveRequests = async (req, res, next) => {
       const { leaves, currentPage, totalPages } = await paginateusermodel(page, limit);
   
       // Render the leave requests view with paginated data
-      res.render(path.join(__dirname, '..', 'public', 'html', 'userHTML', 'leaveRequests.ejs'), {
+      res.render(path.join(__dirname, '..', 'public', 'html', 'adminHTML', 'adminLeaveRequests.ejs'), {
         leaveRecords: leaves, // Change 'leaves' to 'leaveRecords'
         currentPage,
         totalPages,
