@@ -226,9 +226,9 @@ button[type="submit"] {
 /* Style the table */
 table {
     width: 100%;
-    border-collapse: collapse;
     margin-top: 20px;
     border: 1px solid var(--secondary-color);
+    
 }
 
 /* Style table headers */
