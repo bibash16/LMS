@@ -40,14 +40,14 @@ exports.postSignUp = async(req,res,next) => {
 
     const token = signToken(newUser._id);
 
-    const emailOptions = {
-      from: `LMS ADMIN <${process.env.ETHEREAL_USERNAME}>`,
-      to: newUser.email,
-      subject: 'Welcome to Your Leave Management System',
-      name: newUser.name
-    };
+    // const emailOptions = {
+    //   from: `LMS ADMIN <${process.env.ETHEREAL_USERNAME}>`,
+    //   to: newUser.email,
+    //   subject: 'Welcome to Your Leave Management System',
+    //   name: newUser.name
+    // };
 
-    await emailService.sendEmail(emailOptions, 'welcome');
+    await emailService.sendWelcomeEmail(newUser);
 
     res.redirect('/api/v1/user/login');
    }catch (error) {

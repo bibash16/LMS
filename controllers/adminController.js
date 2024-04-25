@@ -6,6 +6,9 @@ const paginateLeaveRequests = require('../util/paginateLeaveRequests');
 const userInfos = require('../util/userInfos');
 const mongoosePaginate = require('mongoose-paginate');
 const paginateusermodel = require('../util/paginateusermodel');
+const EmailService = require('./../util/email');
+
+const emailService = new EmailService();
 
 
 exports.dashboard = catchAsync(async (req, res, next) => {
@@ -96,6 +99,7 @@ exports.acceptLeave = async (req, res, next) => {
 exports.rejectLeave = async (req, res, next) => {
   try {
     const leaveId = req.body.leaveId; 
+    
 
     if (!leaveId) {
       return res.status(400).json({ message: 'Invalid request' });
@@ -106,6 +110,9 @@ exports.rejectLeave = async (req, res, next) => {
       return res.status(404).json({ message: 'Leave request not found' });
     }
 
+    const user = await User.findById(leave.userId);
+
+    await emailService.sendRejectLeaveEmail(user, leaveId);
     // Optional: Send notification to user about the rejection (see previous explanation)
    res.status(201).redirect('/api/v1/admin/leaveRequests');
 
