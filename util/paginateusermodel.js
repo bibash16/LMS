@@ -2,12 +2,16 @@ const Leave = require('./../models/leaveModel');
 
 const paginateusermodel = async (page, limit) => {
     try {
-        const leaves = await Leave.find({})
-            .skip((page - 1) * limit)
-            .limit(limit);
-
         const totalLeaves = await Leave.countDocuments({});
         const totalPages = Math.ceil(totalLeaves / limit);
+
+        // Calculate the skip value to reverse the order
+        const skip = totalLeaves - (page * limit);
+
+        const leaves = await Leave.find({})
+            .skip(skip < 0 ? 0 : skip) // Ensure skip is not negative
+            .limit(limit)
+            .sort({ createdAt: -1 }); // Sort by createdAt field in descending order
 
         return { leaves, currentPage: page, totalPages };
     } catch (error) {

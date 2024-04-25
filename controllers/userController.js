@@ -104,12 +104,12 @@ exports.leaveRequests = async (req, res, next) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 3;
 
-    // Fetch paginated leave requests
-    const { leaves, currentPage, totalPages } = await paginateusermodel(page, limit);
+    // Fetch paginated leave requests in descending order of their creation or update timestamp
+    const { leaves, currentPage, totalPages } = await paginateusermodel(page, limit, -1);
 
     // Render the leave requests view with paginated data
     res.render(path.join(__dirname, '..', 'public', 'html', 'userHTML', 'leaveRequests.ejs'), {
-      leaveRecords: leaves, // Change 'leaves' to 'leaveRecords'
+      leaveRecords: leaves, // Pass the leave records
       currentPage,
       totalPages,
       limit
@@ -120,6 +120,7 @@ exports.leaveRequests = async (req, res, next) => {
     res.status(500).send('Internal Server Error');
   }
 };
+
 
 
 exports.leaveRemaining = (req, res) => {
