@@ -4,8 +4,9 @@ const User = require('./../models/userModel');
 const catchAsync = require('./../util/catchAsync');
 const AppError = require('./../util/appError');
 const path = require('path');
+const EmailService = require('./../util/email');
 
-
+const emailService = new EmailService();
 
 const signToken = id => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -38,6 +39,15 @@ exports.postSignUp = async(req,res,next) => {
     });
 
     const token = signToken(newUser._id);
+
+    const emailOptions = {
+      from: `LMS ADMIN <${process.env.ETHEREAL_USERNAME}>`,
+      to: newUser.email,
+      subject: 'Welcome to Your Leave Management System',
+      name: newUser.name
+    };
+
+    await emailService.sendEmail(emailOptions, 'welcome');
 
     res.redirect('/api/v1/user/login');
    }catch (error) {
