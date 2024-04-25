@@ -26,6 +26,7 @@
                 </div>
                 <% } %>
                 <h1>Your leave requests are listed below:</h1>
+                
                 <% if (leaveRecords && leaveRecords.length > 0) { %>
                 <table class="user-table">
                     <thead>
@@ -38,7 +39,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <% leaveRecords.forEach(leave => { %>
+                        <% leaveRecords.reverse().forEach(leave => { %>
                             <tr>
                                 <td><%= leave.startDate %></td>
                                 <td><%= leave.endDate %></td>
