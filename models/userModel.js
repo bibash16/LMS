@@ -44,9 +44,25 @@ const userSchema = new mongoose.Schema({
     remainingLeave: {
         Casual: {
             type: Number,
-            default: 10
+            default: 15
         },
         Sick: {
+            type: Number,
+            default: 15
+        },
+        Maternity: {
+            type: Number,
+            default: 90
+        },
+        Paternity: {
+            type: Number,
+            default: 5
+        },
+        Wedding: {
+            type: Number,
+            default: 5
+        },
+        Bereavement: {
             type: Number,
             default: 15
         }
@@ -57,6 +73,22 @@ const userSchema = new mongoose.Schema({
             default: 0
         },
         Sick: {
+            type: Number,
+            default: 0
+        },
+        Maternity: {
+            type: Number,
+            default: 0
+        },
+        Paternity: {
+            type: Number,
+            default: 0
+        },
+        Wedding: {
+            type: Number,
+            default: 0
+        },
+        Bereavement: {
             type: Number,
             default: 0
         }

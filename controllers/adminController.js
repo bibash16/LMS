@@ -79,12 +79,34 @@ exports.acceptLeave = async (req, res, next) => {
         }
 
         // Update remainingLeave and leaveTaken based on leave type
-        if (leave.leaveType === 'Casual') {
-            user.remainingLeave.Casual -= leaveDuration;
-            user.leaveTaken.Casual += leaveDuration;
-        } else if (leave.leaveType === 'Sick') {
-            user.remainingLeave.Sick -= leaveDuration;
-            user.leaveTaken.Sick += leaveDuration;
+        switch (leave.leaveType) {
+            case 'Casual':
+                user.remainingLeave.Casual -= leaveDuration;
+                user.leaveTaken.Casual += leaveDuration;
+                break;
+            case 'Sick':
+                user.remainingLeave.Sick -= leaveDuration;
+                user.leaveTaken.Sick += leaveDuration;
+                break;
+            case 'Maternity':
+                user.remainingLeave.Maternity -= leaveDuration;
+                user.leaveTaken.Maternity += leaveDuration;
+                break;
+            case 'Paternity':
+                user.remainingLeave.Paternity -= leaveDuration;
+                user.leaveTaken.Paternity += leaveDuration;
+                break;
+            case 'Wedding':
+                user.remainingLeave.Wedding -= leaveDuration;
+                user.leaveTaken.Wedding += leaveDuration;
+                break;
+            case 'Bereavement':
+                user.remainingLeave.Bereavement -= leaveDuration;
+                user.leaveTaken.Bereavement += leaveDuration;
+                break;
+            default:
+              return res.status(404).json({ message: 'Leave type not valid' });
+       
         }
 
         await user.save();
