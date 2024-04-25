@@ -11,16 +11,13 @@ const EmailService = require('./../util/email');
 const emailService = new EmailService();
 
 
-exports.dashboard = catchAsync(async (req, res, next) => {
+exports.dashboard = async (req, res, next) => {
     try {
-        // Render the admin dashboard view with user data
         res.render(path.join(__dirname, '..', 'public', 'html', 'adminHTML', 'adminDashboard.ejs'), { user: req.user });
     } catch (err) {
-        // Handle errors
-        console.error(err);
-        res.status(500).send('Internal Server Error');
+        res.status(500).render(path.join(__dirname, '..', 'public', 'html', '500.ejs'));
     }
-});
+};
 
 exports.showProfile = catchAsync(async (req, res, next) => {
     res.render(path.join(__dirname, '..', 'public', 'html', 'adminHTML', 'adminProfile.ejs'), { user: req.user });
@@ -28,45 +25,39 @@ exports.showProfile = catchAsync(async (req, res, next) => {
 
 exports.userInfo = catchAsync(async (req, res, next) => {
     //const users = await User.find({});
-   
-        try {
-            const page = parseInt(req.query.page) || 1;
-            const limit = parseInt(req.query.limit) || 10;
-      
-            // Fetch paginated leave requests
-            const { userinformation, currentPage, totalPages } = await userInfos(page, limit);
-      
-            // Render the admin leave requests view with paginated leave requests data
-            res.render(path.join(__dirname, '..', 'public', 'html', 'adminHTML', 'adminUserInfo.ejs'), {
-                currentPage, // Ensure currentPage is correctly passed
-                totalPages,
-                limit,
-                users: userinformation // Ensure totalPages is correctly passed
-            });
-        } catch (err) {
-            // Handle errors
-            console.error(err);
-            res.status(500).send('Internal Server Error');
-        }
-      });
-exports.deleteUser = (req, res) => {
-    res.status(500).json({
-        status: 'error',
-        message: 'This route is not yet defined!'
-    });
-};
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+    
+        // Fetch paginated leave requests
+        const { userinformation, currentPage, totalPages } = await userInfos(page, limit);
+    
+        // Render the admin leave requests view with paginated leave requests data
+        res.render(path.join(__dirname, '..', 'public', 'html', 'adminHTML', 'adminUserInfo.ejs'), {
+            currentPage, // Ensure currentPage is correctly passed
+            totalPages,
+            limit,
+            users: userinformation // Ensure totalPages is correctly passed
+        });
+    } catch (err) {
+         res.status(500).render(path.join(__dirname, '..', 'public', 'html', '500.ejs'));
+    }
+});
+
 
 exports.acceptLeave = async (req, res, next) => {
     try {
         const leaveId = req.body.leaveId; 
 
         if (!leaveId) {
-            return res.status(400).json({ message: 'Invalid request' });
+            req.flash('error', { statusCode: 400, message:'Invalid Leave Request'}); 
+            return res.redirect('/api/v1/admin/leaveRequests');
         }
 
         const leave = await Leave.findByIdAndUpdate(leaveId, { status: 'Accepted' }, { new: true }); // Update and return updated doc
         if (!leave) {
-            return res.status(404).json({ message: 'Leave request not found' });
+            req.flash('error', { statusCode: 400, message:'Leave Request not found.'}); 
+            return res.redirect('/api/v1/admin/leaveRequests');
         }
 
         // Calculate leave duration
@@ -75,7 +66,8 @@ exports.acceptLeave = async (req, res, next) => {
         // Update user's remainingLeave and leaveTaken fields
         const user = await User.findById(leave.userId);
         if (!user) {
-            return res.status(404).json({ message: 'User not found' });
+            req.flash('error', { statusCode: 404, message:'User not found.'}); 
+            return res.redirect('/api/v1/admin/leaveRequests');
         }
 
         // Update remainingLeave and leaveTaken based on leave type
@@ -105,8 +97,8 @@ exports.acceptLeave = async (req, res, next) => {
                 user.leaveTaken.Bereavement += leaveDuration;
                 break;
             default:
-              return res.status(404).json({ message: 'Leave type not valid' });
-       
+                req.flash('error', { statusCode: 404, message:'Leave Type Not Valid.'}); 
+                return res.redirect('/api/v1/admin/leaveRequests');
         }
 
         await user.save();
@@ -116,7 +108,7 @@ exports.acceptLeave = async (req, res, next) => {
         res.status(201).redirect('/api/v1/admin/leaveRequests');
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ message: 'Error accepting leave request' });
+        return res.status(500).render(path.join(__dirname, '..', 'public', 'html', '500.ejs'));
     }
 };
 
@@ -126,12 +118,14 @@ exports.rejectLeave = async (req, res, next) => {
     
 
     if (!leaveId) {
-      return res.status(400).json({ message: 'Invalid request' });
+        req.flash('error', { statusCode: 400, message:'Invalid Request'}); 
+        return res.redirect('/api/v1/admin/leaveRequests');
     }
 
     const leave = await Leave.findByIdAndUpdate(leaveId, { status: 'Rejected' }, { new: true }); // Update and return updated doc
     if (!leave) {
-      return res.status(404).json({ message: 'Leave request not found' });
+        req.flash('error', { statusCode: 404, message:'Leave Request Not Found.'}); 
+        return res.redirect('/api/v1/admin/leaveRequests');
     }
 
     const user = await User.findById(leave.userId);
@@ -141,17 +135,11 @@ exports.rejectLeave = async (req, res, next) => {
    res.status(201).redirect('/api/v1/admin/leaveRequests');
 
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: 'Error rejecting leave request' });
-  }
+    return res.status(500).render(path.join(__dirname, '..', 'public', 'html', '500.ejs'));
+    }
 };
 
-exports.deleteLeave = (req, res) => {
-    res.status(500).json({
-        status: 'error',
-        message: 'This route is not yet defined!'
-    });
-};// Modified leaveRequests function with pagination
+
 exports.leaveRequests = async (req, res, next) => {
     try {
       // Check if the user is authenticated
@@ -178,7 +166,7 @@ exports.leaveRequests = async (req, res, next) => {
     } catch (err) {
       // Handle errors
       console.error(err);
-      res.status(500).send('Internal Server Error');
+      return res.status(500).render(path.join(__dirname, '..', 'public', 'html', '500.ejs'));
     }
   };
   

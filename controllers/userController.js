@@ -82,6 +82,7 @@ exports.postUpdatePassword = catchAsync(async(req,res,next)=>{
   //updating the password in db
   user.password = newPassword;
   await user.save();
+
   req.flash('success', 'User Password updated succesfully!');
   res.status(201).redirect('/api/v1/user/dashboard');
 
@@ -117,18 +118,10 @@ exports.leaveRequests = async (req, res, next) => {
   } catch (err) {
     // Handle errors
     console.error(err);
-    res.status(500).send('Internal Server Error');
+    return res.status(500).render(path.join(__dirname, '..', 'public', 'html', '500.ejs'));
   }
 };
 
-
-
-exports.leaveRemaining = (req, res) => {
-  res.status(500).json({
-    status: 'error',
-    message: 'This route is not yet defined!'
-  });
-};
 exports.getLeaveApplication = (req, res, next) => {
   const user = req.user;
   res.render(path.join(__dirname,'..','public','html','userHTML','leaveForm.ejs'),{ user });

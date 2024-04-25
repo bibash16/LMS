@@ -11,8 +11,8 @@ const globalErrorHandler = require('./controllers/errorController');
 const userRouter = require('./routes/userRoutes');
 const adminRouter = require('./routes/adminRoutes');
 
+//why is this  here?
 const paginateLeaveRequests = require('./util/paginateLeaveRequests');
-
 
 const app = express();
 
@@ -34,8 +34,6 @@ app.use(session({
   cookie: { secure: false }
 }));
 
-
-
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(flash());
@@ -50,14 +48,16 @@ app.use((req, res, next) => {
 app.get('/', (req, res,next) => {
     res.sendFile(path.join(__dirname,'public','html','index.html'));
 });
+
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/admin', adminRouter);
 
 
 //error handling for invalid routes
 app.all('*',(req,res,next) => {
-  //res.redirect('/api/user/login');
- next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+  next( res.status(500).render(path.join(__dirname, '..', 'public', 'html', '500.ejs')));
+  
+// next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
 app.use(globalErrorHandler);

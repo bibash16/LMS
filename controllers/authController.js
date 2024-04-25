@@ -40,13 +40,6 @@ exports.postSignUp = async(req,res,next) => {
 
     const token = signToken(newUser._id);
 
-    // const emailOptions = {
-    //   from: `LMS ADMIN <${process.env.ETHEREAL_USERNAME}>`,
-    //   to: newUser.email,
-    //   subject: 'Welcome to Your Leave Management System',
-    //   name: newUser.name
-    // };
-
     await emailService.sendWelcomeEmail(newUser);
 
     res.redirect('/api/v1/user/login');
@@ -119,9 +112,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
   
   if (!token) {
-    // return next(
-    //   new AppError('You are not logged in! Please log in to get access.', 401)
-    // );
+    req.flash('error',{ statusCode: 401, message: 'You are not logged in! Please log in to get access.'});
     return  res.redirect('/api/user/login');
   }
 
@@ -130,24 +121,20 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   //check if token has expired
   if (decoded.exp < Date.now() / 1000) {
+    req.flash('error', { statusCode: 401, message: 'You are not logged in! Please log in to get access.'});
     return res.redirect('/api/user/login');
   }  
   // Check if user still exists
   const currentUser = await User.findById(decoded.id);
   if (!currentUser) {
-    return next(
-      new AppError(
-        'The user belonging to this token does no longer exist.',
-        401
-      )
-    );
+    req.flash('error',{ statusCode: 401, message: 'The user belonging to this token does no longer exist.'});
+    return res.redirect('/api/user/login');
   }
 
   //  Check if user changed password after the token was issued
   if (currentUser.changedPasswordAfter(decoded.iat)) {
-    return next(
-      new AppError('User recently changed password! Please log in again.', 401)
-    );
+    req.flash('error',{ statusCode: 401, message: 'User recently changed password! Please log in again.'});
+    return res.redirect('/api/user/login');
   }
 
   // GRANT ACCESS TO PROTECTED ROUTE
@@ -160,7 +147,8 @@ exports.restrictTo = (...roles) => {
     return (req,res,next)=> {
         // role: admin
         if(!roles.includes(req.user.role)) { 
-            return next( new AppError('You do not have permission to perform this action', 403));
+            req.flash('error',{ statusCode: 403, message: 'You do not have permission to perform this action'});
+            return res.redirect('/api/user/login');
         };
     next();
     };
