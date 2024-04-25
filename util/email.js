@@ -70,6 +70,21 @@ class EmailService {
 
         await this.sendEmail(emailOptions, 'rejected', data);
     }
+
+    async sendAcceptLeaveEmail(user, leaveId) {
+        const emailOptions = {
+            from: `LMS ADMIN <${process.env.ETHEREAL_USERNAME}>`,
+            to: user.email,
+            subject: 'Leave Request Accepted',
+        };
+
+        const data = {
+            name: user.name,
+            leaveId: leaveId
+        };
+
+        await this.sendEmail(emailOptions, 'accepted', data);
+    }
 }
 
 module.exports = EmailService;

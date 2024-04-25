@@ -111,6 +111,8 @@ exports.acceptLeave = async (req, res, next) => {
 
         await user.save();
 
+        await emailService.sendAcceptLeaveEmail(user, leaveId);
+
         res.status(201).redirect('/api/v1/admin/leaveRequests');
     } catch (error) {
         console.error(error);
@@ -135,7 +137,7 @@ exports.rejectLeave = async (req, res, next) => {
     const user = await User.findById(leave.userId);
 
     await emailService.sendRejectLeaveEmail(user, leaveId);
-    // Optional: Send notification to user about the rejection (see previous explanation)
+    // Optional: Send notification to user about the rejection 
    res.status(201).redirect('/api/v1/admin/leaveRequests');
 
   } catch (error) {
