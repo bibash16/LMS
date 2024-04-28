@@ -104,6 +104,7 @@ exports.acceptLeave = async (req, res, next) => {
 
         await emailService.sendAcceptLeaveEmail(user, leaveId);
 
+        req.flash('success', 'Leave application updated!');
         res.status(201).redirect('/api/v1/admin/leaveRequests');
     } catch (error) {
         console.error(error);
@@ -130,7 +131,8 @@ exports.rejectLeave = async (req, res, next) => {
     const user = await User.findById(leave.userId);
 
     await emailService.sendRejectLeaveEmail(user, leaveId);
-    // Optional: Send notification to user about the rejection 
+
+   req.flash('success', 'Leave application updated!');
    res.status(201).redirect('/api/v1/admin/leaveRequests');
 
   } catch (error) {
