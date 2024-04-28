@@ -11,9 +11,6 @@ const globalErrorHandler = require('./controllers/errorController');
 const userRouter = require('./routes/userRoutes');
 const adminRouter = require('./routes/adminRoutes');
 
-//why is this  here?
-const paginateLeaveRequests = require('./util/paginateLeaveRequests');
-
 const app = express();
 
 app.set('view engine', 'ejs');

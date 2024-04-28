@@ -2,7 +2,7 @@ const User = require('./../models/userModel');
 const Leave = require('./../models/leaveModel');
 const catchAsync = require('./../util/catchAsync');
 const AppError = require('./../util/appError');
-const paginateusermodel = require('../util/paginateusermodel');
+const paginateUserLeaves = require('../util/paginateUserLeaves');
 const path = require('path');
 
 exports.dashboard = catchAsync(async(req,res,next)=>{
@@ -103,10 +103,10 @@ exports.leaveRequests = async (req, res, next) => {
     
     // Parse query parameters for pagination
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 3;
+    const limit = parseInt(req.query.limit) || 5;
 
     // Fetch paginated leave requests in descending order of their creation or update timestamp
-    const { leaves, currentPage, totalPages } = await paginateusermodel(page, limit, -1);
+    const { leaves, currentPage, totalPages } = await paginateUserLeaves(page, limit, userId ,-1);
 
     // Render the leave requests view with paginated data
     res.render(path.join(__dirname, '..', 'public', 'html', 'userHTML', 'leaveRequests.ejs'), {

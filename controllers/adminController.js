@@ -2,10 +2,9 @@ const path = require('path');
 const catchAsync = require('./../util/catchAsync');
 const User = require('../models/userModel');
 const Leave = require('./../models/leaveModel');
-const paginateLeaveRequests = require('../util/paginateLeaveRequests');
 const userInfos = require('../util/userInfos');
 const mongoosePaginate = require('mongoose-paginate');
-const paginateusermodel = require('../util/paginateusermodel');
+const paginateAdminLeaves = require('../util/paginateAdminLeaves');
 const EmailService = require('./../util/email');
 
 const emailService = new EmailService();
@@ -154,7 +153,7 @@ exports.leaveRequests = async (req, res, next) => {
       const limit = parseInt(req.query.limit) || 7;
   
       // Fetch paginated leave requests
-      const { leaves, currentPage, totalPages } = await paginateusermodel(page, limit);
+      const { leaves, currentPage, totalPages } = await paginateAdminLeaves(page, limit);
   
       // Render the leave requests view with paginated data
       res.render(path.join(__dirname, '..', 'public', 'html', 'adminHTML', 'adminLeaveRequests.ejs'), {
