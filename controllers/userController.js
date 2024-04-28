@@ -19,6 +19,24 @@ exports.updateProfile = catchAsync(async(req,res,next)=>{
   res.render(path.join(__dirname,'..','public','html','userHTML','updateProfile.ejs'), {user : req.user})
 });
 
+exports.showLeaves = async(req,res,next)=>{
+  try {
+    const userId = req.user._id; // Assuming you have access to the user ID
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    // Pass the remainingLeave and leaveTaken objects to the template
+    res.render(path.join(__dirname,'..','public','html','userHTML','remainingLeave.ejs'), {
+      remainingLeave: user.remainingLeave,
+      leaveTaken: user.leaveTaken
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).render('500'); // Render an error page
+  }
+};
+
 
 exports.postUpdateProfile = async (req, res, next) => {
    try {
