@@ -1,9 +1,9 @@
-<canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+<canvas id="myChart" style="width:100%;max-width:1200px;margin: auto;"></canvas>
 
 <script>
-const xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
-const yValues = [55, 49, 44, 24, 15];
-const barColors = ["red", "green","blue","orange","brown"];
+const xValues = ["Casual", "left", "Sick", "left", "Maternity", "left","paternity", "left", "Wedding", "left", "Bereavement", "left"];
+const yValues = [15, 14, 15, 13, 90, 57, 5, 3, 5, 2, 15, 15];
+const barColors = ["green", "red","green","red","green", "red", "green", "red","green","red","green", "red"];
 
 new Chart("myChart", {
   type: "bar",
@@ -18,7 +18,7 @@ new Chart("myChart", {
     legend: {display: false},
     title: {
       display: true,
-      text: "World Wine Production 2018"
+      text: "Remaining leave days"
     }
   }
 });
