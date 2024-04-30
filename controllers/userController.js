@@ -105,11 +105,11 @@ exports.leaveRequests = async (req, res, next) => {
     const limit = parseInt(req.query.limit) || 3;
 
     // Fetch paginated leave requests in descending order of their creation or update timestamp
-    const { leaves, currentPage, totalPages } = await paginateusermodel(page, limit, -1);
+    const { leave, currentPage, totalPages } = await paginateusermodel(page, limit, -1);
 
     // Render the leave requests view with paginated data
     res.render(path.join(__dirname, '..', 'public', 'html', 'userHTML', 'leaveRequests.ejs'), {
-      leaveRecords: leaves, // Pass the leave records
+      leaveRecords: leave, // Pass the leave records
       currentPage,
       totalPages,
       limit
