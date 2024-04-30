@@ -1,6 +1,6 @@
-const Leave = require('./../models/leaveModel');
+const Leave = require('../models/leaveModel');
 
-const paginateusermodel = async (page, limit) => {
+const paginateAdminLeaves = async (page, limit) => {
     try {
         const totalLeaves = await Leave.countDocuments({});
         const totalPages = Math.ceil(totalLeaves / limit);
@@ -21,4 +21,4 @@ const paginateusermodel = async (page, limit) => {
     }
 };
 
-module.exports = paginateusermodel;
+module.exports = paginateAdminLeaves;

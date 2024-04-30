@@ -19,6 +19,7 @@ router.get('/profile', userController.showProfile)
 router.get('/logout', authController.postLogout);
 router.get('/leaveHistory', userController.leaveRequests);
 //profile settings
+router.get('/leaveDetails', userController.showLeaves);   
 router.get('/updateProfile', userController.updateProfile);
 router.post('/postUpdateProfile', userController.postUpdateProfile);
 //password settings

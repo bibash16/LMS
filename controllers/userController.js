@@ -2,7 +2,7 @@ const User = require('./../models/userModel');
 const Leave = require('./../models/leaveModel');
 const catchAsync = require('./../util/catchAsync');
 const AppError = require('./../util/appError');
-const paginateusermodel = require('../util/paginateusermodel');
+const paginateUserLeaves = require('../util/paginateUserLeaves');
 const path = require('path');
 
 exports.dashboard = catchAsync(async(req,res,next)=>{
@@ -18,6 +18,24 @@ exports.updateProfile = catchAsync(async(req,res,next)=>{
   
   res.render(path.join(__dirname,'..','public','html','userHTML','updateProfile.ejs'), {user : req.user})
 });
+
+exports.showLeaves = async(req,res,next)=>{
+  try {
+    const userId = req.user._id; // Assuming you have access to the user ID
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    // Pass the remainingLeave and leaveTaken objects to the template
+    res.render(path.join(__dirname,'..','public','html','userHTML','remainingLeave.ejs'), {
+      remainingLeave: user.remainingLeave,
+      leaveTaken: user.leaveTaken
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).render('500'); // Render an error page
+  }
+};
 
 
 exports.postUpdateProfile = async (req, res, next) => {
@@ -82,6 +100,7 @@ exports.postUpdatePassword = catchAsync(async(req,res,next)=>{
   //updating the password in db
   user.password = newPassword;
   await user.save();
+
   req.flash('success', 'User Password updated succesfully!');
   res.status(201).redirect('/api/v1/user/dashboard');
 
@@ -102,10 +121,10 @@ exports.leaveRequests = async (req, res, next) => {
     
     // Parse query parameters for pagination
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 3;
+    const limit = parseInt(req.query.limit) || 5;
 
     // Fetch paginated leave requests in descending order of their creation or update timestamp
-    const { leave, currentPage, totalPages } = await paginateusermodel(page, limit, -1);
+    const { leave, currentPage, totalPages } = await paginateUserLeaves(page, limit, userId ,-1);
 
     // Render the leave requests view with paginated data
     res.render(path.join(__dirname, '..', 'public', 'html', 'userHTML', 'leaveRequests.ejs'), {
@@ -117,18 +136,10 @@ exports.leaveRequests = async (req, res, next) => {
   } catch (err) {
     // Handle errors
     console.error(err);
-    res.status(500).send('Internal Server Error');
+    return res.status(500).render(path.join(__dirname, '..', 'public', 'html', '500.ejs'));
   }
 };
 
-
-
-exports.leaveRemaining = (req, res) => {
-  res.status(500).json({
-    status: 'error',
-    message: 'This route is not yet defined!'
-  });
-};
 exports.getLeaveApplication = (req, res, next) => {
   const user = req.user;
   res.render(path.join(__dirname,'..','public','html','userHTML','leaveForm.ejs'),{ user });
