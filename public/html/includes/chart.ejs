@@ -1,0 +1,25 @@
+<canvas id="myChart" style="width:100%;max-width:1200px;margin: auto;"></canvas>
+
+<script>
+const xValues = ["Casual", "left", "Sick", "left", "Maternity", "left","paternity", "left", "Wedding", "left", "Bereavement", "left"];
+const yValues = [15, 14, 15, 13, 90, 57, 5, 3, 5, 2, 15, 15];
+const barColors = ["green", "red","green","red","green", "red", "green", "red","green","red","green", "red"];
+
+new Chart("myChart", {
+  type: "bar",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+  options: {
+    legend: {display: false},
+    title: {
+      display: true,
+      text: "Remaining leave days"
+    }
+  }
+});
+</script>

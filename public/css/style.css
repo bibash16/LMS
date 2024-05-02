@@ -1,0 +1,276 @@
+/* Reset styles for pseudo-elements */
+::after,
+::before {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Remove default underline for links */
+a {
+    text-decoration: none;
+}
+
+/* Remove default list styles */
+li {
+    list-style: none;
+}
+
+/* Define heading styles */
+h1 {
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+/* Define default body font */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+    height: 100%;
+}
+
+/* Define wrapper styles */
+.wrapper {
+    display: flex;
+    width: 100%;
+    height: 100%
+}
+
+/* Define main content container styles */
+.main {
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden; /* Review this property */
+    transition: all 0.35s ease-in-out;
+    background-color: #dfdfdf;
+    height: 100%; 
+}
+
+/* Define sidebar styles */
+#sidebar {
+    width: 70px;
+    min-width: 70px;
+    z-index: 1000;
+    transition: all .25s ease-in-out;
+    background-color: #0e2238;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Expand sidebar styles */
+#sidebar.expand {
+    width: 260px;
+    min-width: 260px;
+}
+
+/* Toggle button styles */
+.toggle-btn {
+    background-color: transparent;
+    cursor: pointer;
+    border: 0;
+    padding: 1rem 1.5rem;
+}
+
+.toggle-btn i {
+    font-size: 1.5rem;
+    color: #FFF;
+}
+
+/* Hide sidebar link text when sidebar is collapsed */
+#sidebar:not(.expand) a.sidebar-link span {
+    display: none;
+}
+
+/* Define sidebar link styles */
+.sidebar-nav {
+    padding: 2rem 0;
+    flex: 1 1 auto;
+}
+
+.sidebar-link {
+    padding: .625rem 1.625rem;
+    color: #FFF;
+    display: block;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    border-left: 3px solid transparent;
+}
+
+.sidebar-link i {
+    font-size: 1.1rem;
+    margin-right: .75rem;
+}
+
+/* Style sidebar link on hover */
+.sidebar-link:hover {
+    background-color: rgba(255, 255, 255, .075);
+    border-left: 3px solid #3b7ddd;
+}
+
+/* Define styles for sidebar dropdown */
+.sidebar-item {
+    position: relative;
+}
+
+#sidebar:not(.expand) .sidebar-item .sidebar-dropdown {
+    position: absolute;
+    top: 0;
+    left: 70px;
+    background-color: #0e2238;
+    padding: 0;
+    min-width: 15rem;
+    display: none;
+}
+
+#sidebar:not(.expand) .sidebar-item:hover .has-dropdown+.sidebar-dropdown {
+    display: block;
+    max-height: 15em;
+    width: 100%;
+    opacity: 1;
+}
+
+/* Style toggle button animation when expanding/collapsing */
+#sidebar.expand .sidebar-link [data-bs-toggle="collapse"]::after {
+    border: solid;
+    border-width: 0 .075rem .075rem 0;
+    content: "";
+    display: inline-block;
+    padding: 2px;
+    position: absolute;
+    right: 1.5rem;
+    top: 1.4rem;
+    transform: rotate(-135deg);
+    transition: all .2s ease-out;
+}
+
+#sidebar.expand .sidebar-link [data-bs-toggle="collapse"].collapsed::after {
+    transform: rotate(45deg);
+    transition: all .2s ease-out;
+}
+
+/* Style form elements */
+.rectangle-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1%;
+}
+
+/* Define rectangle styles */
+.rectangle {
+    width: 50%;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style input groups */
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin: 2%;
+}
+
+.input-group input {
+    width: 90%;
+    padding: 2%;
+    border: 1px solid #ccc;
+}
+
+/* Style buttons */
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button[type="submit"] {
+    margin-top: 10px;
+}
+
+/* Define styles for user rectangles */
+.user-rectangle {
+    width: 50%;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.user-details p {
+    margin: 5px 0;
+}
+
+/* Define a color scheme */
+:root {
+    --primary-color: #043b75; /* Primary color (blue) */
+    --secondary-color: #1a97eb; /* Secondary color (gray) */
+    --light-color: #87d2f2; /* Light color (off-white) */
+}
+
+/* Style the table */
+table {
+    width: 100%;
+    margin-top: 20px;
+    border: 1px solid var(--secondary-color);
+    
+}
+
+/* Style table headers */
+table th {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 16px;
+    text-align: center;
+}
+
+/* Style alternating row colors */
+table tbody tr:nth-child(even) {
+    background-color: var(--light-color);
+}
+
+table tbody tr:nth-child(odd) {
+    background-color: #ececec
+}
+
+/* Style table data cells */
+table td {
+    padding: 12px;
+}
+
+/* Style hover effect */
+table tbody tr:hover {
+    background-color: #bebebe;
+    transition: background-color 0.3s ease;
+}
+/* Add this to your existing CSS file or create a new one */
+.leavestatusaccepted{
+    background-color: green; /* Green color for Accepted status */
+}
+
+.leavestatuspending{
+    background-color: yellow; /* Yellow color for Pending status */
+}
+
+.leavestatusrejected{
+    background-color: red; /* Red color for Rejected status */
+}
+
+.leavestatusaccepted,.leavestatuspending,.leavestatusrejected{
+    pointer-events: none;
+}
